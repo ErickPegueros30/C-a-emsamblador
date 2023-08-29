@@ -8,24 +8,28 @@ namespace Sintaxis_2
         {
             try
             {
-                Token T = new Token();
-
-                T.setContenido("3.5e-8");
-                T.setClasificacion(Token.Tipos.Numero);
-
-                Console.WriteLine(T.getContenido());
-                Console.WriteLine(T.getClasificacion());
-                
-                /*using (Lenguaje L = new Lenguaje("suma.cpp"))
+                using (Sintaxis L = new Sintaxis("suma.cpp"))
                 {
+                    L.match("#");
+                    L.match("include");
+                    L.match("<");
+                    L.match(Token.Tipos.Identificador);
+                    L.match(">");
+
+                    L.match("#");
+                    L.match("include");
+                    L.match("<");
+                    L.match(Token.Tipos.Identificador);
+                    L.match(">");
+
+                    L.match(Token.Tipos.Numero);
                     //L.Programa();
                     
-                    while (!L.FinArchivo())
+                    /*while (!L.FinArchivo())
                     {
                         L.nextToken();
-                    }
-                    
-                }*/
+                    }*/  
+                }
             } 
             catch (Exception e)
             {

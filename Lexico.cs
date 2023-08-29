@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
-using System.Runtime.CompilerServices;
-
 
 namespace Sintaxis_2
 {
-    public class Lexico : Token
+    public class Lexico : Token, IDisposable
     {
         const int F = -1;
         const int E = -2;
@@ -66,7 +64,7 @@ namespace Sintaxis_2
         {
             linea = columna = 1;
             log = new StreamWriter("prueba.log");
-            log.WriteLine("Autor: Guillermo Fernandez Romero");
+            log.WriteLine("Autor: Erick Jaimes Pegueros");
             log.WriteLine("Fecha: 3-Mayo-2023 15:09");
             log.AutoFlush = true;
             if (File.Exists("prueba.cpp"))
@@ -82,7 +80,7 @@ namespace Sintaxis_2
         {
             linea = columna = 1;
             log = new StreamWriter(Path.GetFileNameWithoutExtension(nombre) + ".log");
-            log.WriteLine("Autor: Guillermo Fernandez Romero");
+            log.WriteLine("Autor: Erick Jaimes Pegueros");
             log.WriteLine("Fecha: 3-Mayo-2023 15:09");
             log.AutoFlush = true;
             if (Path.GetExtension(nombre) != ".cpp")
