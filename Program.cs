@@ -10,30 +10,17 @@ namespace Sintaxis_2
             {
                 using (Sintaxis L = new Sintaxis("suma.cpp"))
                 {
-                    L.match("#");
-                    L.match("include");
-                    L.match("<");
-                    L.match(Token.Tipos.Identificador);
-                    L.match(">");
-
-                    L.match("#");
-                    L.match("include");
-                    L.match("<");
-                    L.match(Token.Tipos.Identificador);
-                    L.match(">");
-
-                    L.match(Token.Tipos.Numero);
                     //L.Programa();
-                    
+
                     /*while (!L.FinArchivo())
                     {
                         L.nextToken();
-                    }*/  
+                    }*/
                 }
-            } 
+            }
             catch (Exception e)
             {
-                Console.WriteLine("Error: "+e.Message);
+                Console.WriteLine("Error: " + e.Message);
             }
         }
     }

@@ -1,14 +1,8 @@
-Autor: Guillermo Fernandez Romero
+Autor: Erick Jaimes Pegueros
 Fecha: 3-Mayo-2023 15:09
 # | Caracter
 include | Identificador
 < | OperadorRelacional
 stdio | Identificador
-> | OperadorRelacional
-# | Caracter
-include | Identificador
-< | OperadorRelacional
-math | Identificador
-> | OperadorRelacional
-350.234 | Numero
-+ | OperadorTermino
+. | Caracter
+Error: de sintaxis, se espera un <>> en la linea 1 columna 16

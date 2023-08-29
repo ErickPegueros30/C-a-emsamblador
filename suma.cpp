@@ -1,5 +1,5 @@
-#include<stdio>
-#include<math>
+#include<stdio.h>
+#include<math.h>
 
 350.234+5.;
 
