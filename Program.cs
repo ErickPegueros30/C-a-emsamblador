@@ -8,9 +8,10 @@ namespace Sintaxis_2
         {
             try
             {
-                using (Sintaxis L = new Sintaxis("suma.cpp"))
+                using (Lenguaje L = new Lenguaje("suma.cpp"))
                 {
-                    //L.Programa();
+                    
+                    L.Programa();
 
                     /*while (!L.FinArchivo())
                     {

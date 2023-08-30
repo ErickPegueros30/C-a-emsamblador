@@ -1,8 +1,2 @@
-Autor: Erick Jaimes Pegueros
+Autor: Guillermo Fernandez Romero
 Fecha: 3-Mayo-2023 15:09
-# | Caracter
-include | Identificador
-< | OperadorRelacional
-stdio | Identificador
-. | Caracter
-Error: de sintaxis, se espera un <>> en la linea 1 columna 16
