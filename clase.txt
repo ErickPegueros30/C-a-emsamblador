@@ -1,0 +1,16 @@
+Expresion -> Termino Matematico
+MasTermino -> (opTermino Termino)?
+Termino -> Factor PorFactor
+PorFactor -> (opFactor Factor)?
+Factor -> Numero | Identificador | (Expresion)
+
+Todo esto permitiria hacer: 
+Asignacion -> Identificador = Expresion;
+
+x26 = (345)*8-(10-4)/2;
+Una forma de modificarla seria 
+Scanf ("%i", &x26);
+
+investigar estructura de datos (Arboles) en postfijo en si recorrido de un arbol 
+Buscar un libro sobre estructura de datos y tratar de tirartelo en un semestre 
+

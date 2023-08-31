@@ -3,16 +3,9 @@
 #include<iostream>
 #include<conio.h>
 
-int   radio,pi,c,c,x26;
-char  c;
-float a,b,c,d,e, pi;
+float x26;
 
 void main() // Funcion principal
 {
-    printf("Hola mundo");
-    for (i=0; ; i++)
-        for (j=0; ; j--)
-        {
-            x26=(pi-4)/radio;
-        }
+   x26=(3+5)*8-(10-4)/2;
 }

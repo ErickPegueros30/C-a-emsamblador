@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 /*
     Requerimiento 1: Mensajes de Printf deben salir sin comillas 
-                    Incluir \n 
+                    Incluir \n y \t pero sin estar en si la salida de una cadena
+    
 */
 namespace Sintaxis_2
 {
@@ -350,6 +351,7 @@ namespace Sintaxis_2
             }
             match(")");
             match(";");
+            
         }
         //Scanf -> scanf(cadena,&Identificador);
         private void Scanf()
@@ -411,6 +413,7 @@ namespace Sintaxis_2
         {
             if (getClasificacion() == Tipos.Numero)
             {
+                Console.Write(" "+getContenido());
                 match(Tipos.Numero);
             }
             else if (getClasificacion() == Tipos.Identificador)
@@ -428,6 +431,61 @@ namespace Sintaxis_2
                 Expresion();
                 match(")");
             }
+            match(Tipos.Cadena);
+           
         }
+
     }
-}
+        
+         /* ListaFlujoSalida -> << cadena | identificador | numero (ListaFlujoSalida)?
+        private void ListaFlujoSalida()
+        {
+            match(Tipos.Identificador.Fin);
+
+            if (getClasificacion() == Tipos.Numero)
+            {
+                Console.Write(getContenido());
+                match(Tipos.Numero); 
+            }
+            else if (getClasificacion() == Tipos.Cadena)
+            {         
+                string contenido = getContenido();                          
+                
+                //checar si hay comilla doble
+                if(contenido.Contains("\"")){
+                    contenido = contenido.Replace("\"", "");
+                }
+                
+                //checar si hay \n
+                if(contenido.Contains("\\n")){
+                    contenido = contenido.Replace("\\n", "\n");
+                }
+
+                //checar si hay \t
+                if(contenido.Contains("\\t")){
+                    contenido = contenido.Replace("\\t", "\t");
+                }
+                
+                Console.Write(contenido);
+                match(Tipos.Identificador.cadena);
+                
+            }
+            else
+            {
+                string nombre = getContenido();
+                if (lista.Existe(nombre))
+                {
+                    Console.Write(l.getValor(nombre));
+                    match(clasificaciones.identificador); // Validar existencia 
+                }
+                else
+                {
+                    throw new Error(bitacora, "Error de sintaxis: La variable (" + nombre + ") " + " no esta declarada en: (" + linea + ", " + caracter + ")");
+                }
+            }                 
+            if (getClasificacion() == clasificaciones.flujoSalida)
+            {
+                ListaFlujoSalida();
+            }
+        }*/
+    }
