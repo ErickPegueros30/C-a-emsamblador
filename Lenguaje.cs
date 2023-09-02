@@ -4,22 +4,29 @@ using System.Linq;
 using System.Threading.Tasks;
 
 /*
-    Requerimiento 1: Mensajes de Printf deben salir sin comillas 
-                    Incluir \n y \t pero sin estar en si la salida de una cadena
-    
+    Requerimiento 1: Mensajes del printf deben salir sin comillas
+                     Incluir \n y \t como secuencias de escape
+    Requerimiento 2: Modificar el valor de una variable con ++, --, +=, -=, *=, /=, %=
+    Requerimiento 3: Cada vez que se haga un match(Tipos.Identificador) verificar el 
+                     uso de la variable 
+                     Incremento(), Printf(), Factor()
 */
+
 namespace Sintaxis_2
 {
     public class Lenguaje : Sintaxis
     {
         List<Variable> lista;
+        Stack<float> stack;
         public Lenguaje()
         {
             lista = new List<Variable>();
+            stack = new Stack<float>();
         }
         public Lenguaje(string nombre) : base(nombre)
         {
             lista = new List<Variable>();
+            stack = new Stack<float>();
         }
 
         //Programa  -> Librerias? Variables? Main
@@ -44,21 +51,20 @@ namespace Sintaxis_2
             log.WriteLine("-----------------");
             foreach (Variable v in lista)
             {
-                log.WriteLine("Nombre: " + v.getNombre() + " Tipo de dato: " + v.getTiposDatos() + " valor: " + v.getValor());
+                log.WriteLine(v.getNombre() + " " + v.getTiposDatos() + " = " + v.getValor());
             }
             log.WriteLine("-----------------");
         }
 
-        private bool Existe(string nombre)
+        private void Modifica (string nombre, float nuevoValor) 
         {
             foreach (Variable v in lista)
             {
                 if (v.getNombre() == nombre)
                 {
-                    return true;
+                    v.setValor(nuevoValor);
                 }
             }
-            return false;
         }
 
         // Libreria -> #include<Identificador(.h)?>
@@ -100,7 +106,17 @@ namespace Sintaxis_2
             {
                 Variables();
             }
-
+        }
+          private bool Existe(string nombre)
+        {
+            foreach (Variable v in lista)
+            {
+                if (v.getNombre() == nombre)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         //ListaIdentificadores -> identificador (,ListaIdentificadores)?
         private void ListaIdentificadores(Variable.TiposDatos tipo)
@@ -180,6 +196,7 @@ namespace Sintaxis_2
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
             }
+            log.Write(getContenido() + " = ");
             match(Tipos.Identificador);
             if (getContenido() == "=")
             {
@@ -222,7 +239,7 @@ namespace Sintaxis_2
                 }
                 Expresion();
             }
-
+            log.WriteLine(" = " + stack.Pop()); //Para contatenar 
             match(";");
         }
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
@@ -338,7 +355,7 @@ namespace Sintaxis_2
         {
             match("printf");
             match("(");
-            Console.WriteLine(getContenido());
+            Console.Write(getContenido());
             match(Tipos.Cadena);
             if (getContenido() == ",")
             {
@@ -351,7 +368,6 @@ namespace Sintaxis_2
             }
             match(")");
             match(";");
-            
         }
         //Scanf -> scanf(cadena,&Identificador);
         private void Scanf()
@@ -365,7 +381,10 @@ namespace Sintaxis_2
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
             }
+            string variable = getContenido();
             match(Tipos.Identificador);
+            float captura = float.Parse(Console.ReadLine());
+            Modifica(variable, captura);
             match(")");
             match(";");
         }
@@ -389,8 +408,18 @@ namespace Sintaxis_2
         {
             if (getClasificacion() == Tipos.OperadorTermino)
             {
+                string operador = getContenido();
                 match(Tipos.OperadorTermino);
                 Termino();
+                log.Write(" " + operador);
+                float R1 = stack.Pop();
+                float R2 = stack.Pop(); 
+                if(operador == "+"){
+                stack.Push(R1+R2); //Por todo lo que el ultimo que entro fue el ultimo en salir  
+                }else {
+                    stack.Push(R1+R2);
+                }
+                
             }
         }
         //Termino -> Factor PorFactor
@@ -404,8 +433,17 @@ namespace Sintaxis_2
         {
             if (getClasificacion() == Tipos.OperadorFactor)
             {
+                string operador = getContenido();
                 match(Tipos.OperadorFactor);
                 Factor();
+                log.Write(" " + operador);
+                float R1 = stack.Pop();
+                float R2 = stack.Pop(); 
+                if(operador == "+"){
+                stack.Push(R1+R2); //Por todo lo que el ultimo que entro fue el ultimo en salir  
+                }else {
+                    stack.Push(R1+R2);
+                }
             }
         }
         //Factor -> numero | identificador | (Expresion)
@@ -413,7 +451,8 @@ namespace Sintaxis_2
         {
             if (getClasificacion() == Tipos.Numero)
             {
-                Console.Write(" "+getContenido());
+                log.Write(" " + getContenido());
+                stack.Push(float.Parse(getContenido())); //cambia un string a flotante  
                 match(Tipos.Numero);
             }
             else if (getClasificacion() == Tipos.Identificador)
@@ -431,61 +470,6 @@ namespace Sintaxis_2
                 Expresion();
                 match(")");
             }
-            match(Tipos.Cadena);
-           
         }
-
     }
-        
-         /* ListaFlujoSalida -> << cadena | identificador | numero (ListaFlujoSalida)?
-        private void ListaFlujoSalida()
-        {
-            match(Tipos.Identificador.Fin);
-
-            if (getClasificacion() == Tipos.Numero)
-            {
-                Console.Write(getContenido());
-                match(Tipos.Numero); 
-            }
-            else if (getClasificacion() == Tipos.Cadena)
-            {         
-                string contenido = getContenido();                          
-                
-                //checar si hay comilla doble
-                if(contenido.Contains("\"")){
-                    contenido = contenido.Replace("\"", "");
-                }
-                
-                //checar si hay \n
-                if(contenido.Contains("\\n")){
-                    contenido = contenido.Replace("\\n", "\n");
-                }
-
-                //checar si hay \t
-                if(contenido.Contains("\\t")){
-                    contenido = contenido.Replace("\\t", "\t");
-                }
-                
-                Console.Write(contenido);
-                match(Tipos.Identificador.cadena);
-                
-            }
-            else
-            {
-                string nombre = getContenido();
-                if (lista.Existe(nombre))
-                {
-                    Console.Write(l.getValor(nombre));
-                    match(clasificaciones.identificador); // Validar existencia 
-                }
-                else
-                {
-                    throw new Error(bitacora, "Error de sintaxis: La variable (" + nombre + ") " + " no esta declarada en: (" + linea + ", " + caracter + ")");
-                }
-            }                 
-            if (getClasificacion() == clasificaciones.flujoSalida)
-            {
-                ListaFlujoSalida();
-            }
-        }*/
-    }
+}
