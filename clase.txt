@@ -14,3 +14,4 @@ Scanf ("%i", &x26);
 investigar estructura de datos (Arboles) en postfijo en si recorrido de un arbol 
 Buscar un libro sobre estructura de datos y tratar de tirartelo en un semestre 
 
+investigar que es parse, match y acomodar el getValor
