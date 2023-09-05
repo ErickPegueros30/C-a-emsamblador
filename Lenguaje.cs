@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,9 +10,9 @@ using System.Threading.Tasks;
                      Modifcar el valor de una variable con ++,--,+=,-=,*=,/=.%=
     Requerimiento 3: Cada vez que se haga un match(Tipos.Identificador) verficar el
                      uso de la variable
-                     Icremento(), Printf(), Factor() y usa get valor y modificar
+                     Icremento(), Printf(), Factor() y usar getValor y Modifica
                      Levantar una excepcion en scanf() cuando se capture un string
-    Requerimiento 4: Implementar la ejecucion del else 
+    Requerimiento 4: Implemenar la ejecución del ELSE
 */
 
 namespace Sintaxis_2
@@ -44,7 +43,7 @@ namespace Sintaxis_2
             {
                 Variables();
             }
-            Main(true); //Porque el primer main no esta condicionado en nada
+            Main(true);
             Imprime();
         }
 
@@ -89,8 +88,8 @@ namespace Sintaxis_2
                 {
                     return v.getValor();
                 }
-                return 0;
             }
+            return 0;
         }
         // Libreria -> #include<Identificador(.h)?>
         private void Libreria()
@@ -151,23 +150,23 @@ namespace Sintaxis_2
             }
         }
         //BloqueInstrucciones -> { ListaInstrucciones ? }
-        private void BloqueInstrucciones()
+        private void BloqueInstrucciones(bool ejecuta)
         {
             match("{");
             if (getContenido() != "}")
             {
-                ListaInstrucciones();
+                ListaInstrucciones(ejecuta);
             }
             match("}");
         }
 
         //ListaInstrucciones -> Instruccion ListaInstrucciones?
-        private void ListaInstrucciones()
+        private void ListaInstrucciones(bool ejecuta)
         {
-            Instruccion();
+            Instruccion(ejecuta);
             if (getContenido() != "}")
             {
-                ListaInstrucciones();
+                ListaInstrucciones(ejecuta);
             }
         }
         //Instruccion -> Printf | Scanf | If | While | Do | For | Asignacion
@@ -181,10 +180,11 @@ namespace Sintaxis_2
             {
                 Scanf(ejecuta);
             }
-            else if (getContenido() == "if")
+             else if (getContenido() == "if")
             {
                 If(ejecuta);
-            }else if (getContenido() == "while")
+            }
+            else if (getContenido() == "while")
             {
                 While(ejecuta);
             }
@@ -196,14 +196,13 @@ namespace Sintaxis_2
             {
                 For(ejecuta);
             }
-            // ...
             else
             {
-                Asignacion();
+                Asignacion(ejecuta);
             }
         }
         //Asignacion -> identificador = Expresion;
-        private void Asignacion()
+        private void Asignacion(bool ejecuta)
         {
             if (!Existe(getContenido()))
             {
@@ -222,10 +221,6 @@ namespace Sintaxis_2
                 if (getContenido() == "++")
                 {
                     match("++");
-                    float contador = stack.Pop();
-                    log.WriteLine(" + " + contador  + 1);
-                    Modifica (variable, contador);
-                    match (";");
                 }
                 else
                 {
@@ -238,7 +233,6 @@ namespace Sintaxis_2
                 if (getContenido() == "+=")
                 {
                     match("+=");
-
                 }
                 else if (getContenido() == "-=")
                 {
@@ -260,7 +254,10 @@ namespace Sintaxis_2
             }
             float resultado = stack.Pop();
             log.WriteLine(" = " + resultado);
-            Modifica(variable,resultado);
+            if (ejecuta)
+            {
+                Modifica(variable,resultado);
+            }
             match(";");
         }
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
@@ -299,14 +296,14 @@ namespace Sintaxis_2
             match(";");
         }
         //For -> for(Asignacion Condicion; Incremento) BloqueInstrucciones | Instruccion
-        private void For(bool)
+        private void For(bool ejecuta)
         {
             match("for");
             match("(");
-            Asignacion();
+            Asignacion(ejecuta);
             Condicion();
             match(";");
-            Incremento();
+            Incremento(ejecuta);
             match(")");
             if (getContenido() == "{")
             {
@@ -346,31 +343,29 @@ namespace Sintaxis_2
 
             switch (operador)
             {
-                case "==" : return R2 == R1;
-                case ">" : return R2 > R1;
-                case ">=" : return R2 >= R1;
-                case "<" : return R2 < R1;
-                case "<=" : return R2 <= R1;
-                default : return R2 != R1;
+                case "==" : return R2==R1;
+                case ">"  : return R2>R1;
+                case ">=" : return R2>=R1;
+                case "<"  : return R2<R1;
+                case "<=" : return R2<=R1;
+                default   : return R2!=R1;
             }
-
         }
         //If -> if (Condicion) BloqueInstrucciones | Instruccion (else BloqueInstrucciones | Instruccion)?
         private void If(bool ejecuta)
         {
             match("if");
             match("(");
-            bool evaluacion = Condicion() && ejecuta; //Asignacion de la Condicion pero si es falsa no se debe de terner bloque de instrcción
+            bool evaluacion = Condicion() && ejecuta;
             Console.WriteLine(evaluacion);
-            Condicion();
             match(")");
             if (getContenido() == "{")
             {
-                BloqueInstrucciones(ejecuta);
+                BloqueInstrucciones(evaluacion);
             }
             else
             {
-                Instruccion(ejecuta);
+                Instruccion(evaluacion);
             }
             if (getContenido() == "else")
             {
@@ -394,7 +389,7 @@ namespace Sintaxis_2
             match("(");
             if (ejecuta)
             {
-            Console.Write(getContenido());
+                Console.Write(getContenido());
             }
             match(Tipos.Cadena);
             if (getContenido() == ",")
@@ -423,14 +418,12 @@ namespace Sintaxis_2
             }
             string variable = getContenido();
             match(Tipos.Identificador);
-            if(ejecuta)
+            if (ejecuta)
             {
                 string captura = "" + Console.ReadLine();
-            float resultado= float.Parse(captura);
-             Modifica(variable,resultado);
+                float resultado = float.Parse(captura);
+                Modifica(variable,resultado);
             }
-            
-           
             match(")");
             match(";");
         }
@@ -504,8 +497,6 @@ namespace Sintaxis_2
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
-
-                stack.Push(getValor(getContenido())); //Ya que el stack esta de puros flotantes 
                 match(Tipos.Identificador);
             }
             else

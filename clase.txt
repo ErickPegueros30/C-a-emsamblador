@@ -20,3 +20,8 @@ solo si la condicion es falsa no debe de escribir en cadena pero si debe de pars
 si es verdadero debe de parametrizar bloque de Instrucciones con el if 
 en el if si la primera que se condiciona con las demas aun que todas sean verdaderas si la 
 primera sea falsa todo se da falso 
+
+parseo analisis sintaxtico 
+
+1 Requerimiento 
+2 el porcentaje reciduo de la division 
