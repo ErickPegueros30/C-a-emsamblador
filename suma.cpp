@@ -9,7 +9,7 @@ void main() // Funcion principal
 {
     a=(3+5)*8-(10-4)/2;
     b=8;
-    printf("Valor de c = ");
+    printf("\tValor de \n c = ");
     scanf("%f",&c);
     if (1==1)
     {

@@ -389,9 +389,25 @@ namespace Sintaxis_2
             match("(");
             if (ejecuta)
             {
-                Console.Write(getContenido());
+            if (getClasificacion() ==Tipos.Cadena)
+            {
+            string contenido = getContenido();
+            if (contenido.Contains("\""))
+            {
+                contenido = contenido.Replace("\"", "");
             }
+            if (contenido.Contains("\\n"))
+            {
+                contenido = contenido.Replace("\\n", "\n");
+            }
+            if (contenido.Contains("\\t"))
+            {
+                contenido = contenido.Replace("\\t", "\t");
+            }
+            Console.Write(contenido);
             match(Tipos.Cadena);
+            }
+            }
             if (getContenido() == ",")
             {
                 match(",");
