@@ -15,3 +15,8 @@ investigar estructura de datos (Arboles) en postfijo en si recorrido de un arbol
 Buscar un libro sobre estructura de datos y tratar de tirartelo en un semestre 
 
 investigar que es parse, match y acomodar el getValor
+solo si la condicion es falsa no debe de escribir en cadena pero si debe de parsear 
+
+si es verdadero debe de parametrizar bloque de Instrucciones con el if 
+en el if si la primera que se condiciona con las demas aun que todas sean verdaderas si la 
+primera sea falsa todo se da falso 
