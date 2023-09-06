@@ -496,6 +496,10 @@ namespace Sintaxis_2
                     stack.Push(R1*R2);
                 else
                     stack.Push(R1/R2);
+                if (operador == "-" || operador == "+")
+                stack.Push(R1+R2);
+                else 
+                stack.Push(R1-R2);
             }
         }
         //Factor -> numero | identificador | (Expresion)
