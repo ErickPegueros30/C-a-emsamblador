@@ -202,21 +202,20 @@ namespace Sintaxis_2
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
             }
-            log.Write(getContenido() + " = ");
             string variable = getContenido();
             match(Tipos.Identificador);
             if (ejecuta){
-                float resultado = stack.Pop();
-                log.WriteLine(" = " + resultado);
+                float resultado = 0;
             
             if (getContenido() == "=")
             {
                 match("=");
                 Expresion();
+                resultado = stack.Pop();
             }
             else if (getClasificacion() == Tipos.IncrementoTermino)
             {
-                match(Tipos.Identificador);
+                match(Tipos.IncrementoTermino);
 
                 if (getContenido() == "++")
                 {
@@ -231,27 +230,34 @@ namespace Sintaxis_2
             }
             else if (getClasificacion() == Tipos.IncrementoFactor)
             {
+                Expresion();
+                float valorExpresion = stack.Pop();
+                float valorVariable = getValor(variable);
                 if (getContenido() == "+=")
                 {
                     match("+=");
+                    resultado = valorVariable + valorExpresion;
                 }
                 else if (getContenido() == "-=")
                 {
                     match("-=");
+                    resultado = valorVariable - valorExpresion;
                 }
                 else if (getContenido() == "*=")
                 {
                     match("*=");
+                    resultado = valorVariable * valorExpresion;
                 }
                 else if (getContenido() == "/=")
                 {
                     match("/=");
+                    resultado = valorVariable / valorExpresion;
                 }
                 else if (getContenido() == "%=")
                 {
                     match("%=");
+                    resultado = valorVariable % valorExpresion;
                 }
-                Expresion();
             }
             match(";");
             Modifica(variable,resultado);
@@ -401,7 +407,7 @@ namespace Sintaxis_2
             Console.Write(contenido);
             match(Tipos.Cadena);
             }
-            }
+            
             if (getContenido() == ",")
             {
                 match(",");
@@ -409,11 +415,24 @@ namespace Sintaxis_2
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
-                match(Tipos.Identificador);
+            }
+            string variable = getContenido();
+            match(Tipos.Identificador);
+            Console.Write("");
+            string captura = ""+ Console.ReadLine();
+            if (float.TryParse(captura, out float resultado))
+            {
+                Modifica(variable, resultado);
+            } 
+            else 
+            {
+                throw new Error("de sintaxis, la variable <" + variable + "> no es un numero valido", log, linea, columna);
+            }
             }
             match(")");
             match(";");
         }
+
         //Scanf -> scanf(cadena,&Identificador);
         private void Scanf(bool ejecuta)
         {
@@ -507,7 +526,20 @@ namespace Sintaxis_2
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
+                string variable = getContenido();
                 match(Tipos.Identificador);
+
+                if (getContenido() == "("){
+                    match("(");
+                    float resultado = getValor(variable);
+                    log.Write(" "+ resultado);
+                    stack.Push(resultado);
+                    match(")");
+                }
+                else 
+                {
+                    stack.Push(getValor(variable));
+                }
             }
             else
             {
@@ -517,4 +549,4 @@ namespace Sintaxis_2
             }
         }
     }
-}
+    }
