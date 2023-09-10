@@ -25,3 +25,21 @@ parseo analisis sintaxtico
 
 1 Requerimiento 
 2 el porcentaje reciduo de la division 
+
+if (getClasificacion() == Tipos.Cadena)
+            {
+                string contenido = getContenido();
+                if (contenido.Contains("\""))
+                {
+                    contenido = contenido.Replace("\"", "");
+                }
+                if (contenido.Contains("\\n"))
+                {
+                    contenido = contenido.Replace("\\n", "\n");
+                }
+                if (contenido.Contains("\\t"))
+                {
+                    contenido = contenido.Replace("\\t", "\t");
+                }
+                Console.Write(contenido);
+            }

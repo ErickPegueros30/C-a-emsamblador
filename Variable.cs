@@ -10,6 +10,7 @@ namespace Sintaxis_2
         public enum TiposDatos { Char, Int, Float };
 
         private string nombre;
+        private bool utilizada = false;
         private float valor;
         private TiposDatos tipo;
         public Variable(string nombre, TiposDatos tipo)
@@ -34,10 +35,13 @@ namespace Sintaxis_2
         {
             return valor;
         }
-
-        internal float getValor(object nuevoValor)
+        public void setUtilizada(bool valor)
         {
-            throw new NotImplementedException();
+            this.utilizada = valor;
         }
+        public bool getUtilizada(){
+            return utilizada;
+        }
+
     }
 }
