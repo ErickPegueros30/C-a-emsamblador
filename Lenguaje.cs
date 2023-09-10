@@ -204,73 +204,100 @@ namespace Sintaxis_2
         //Asignacion -> identificador = Expresion;
         private void Asignacion(bool ejecuta)
         {
-            if (!Existe(getContenido()))
-            {
-                throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
-            }
             string variable = getContenido();
+            if (!Existe(variable))
+            {
+                throw new Error("de sintaxis, la variable <" + variable + "> no está declarada", log, linea, columna);
+            }
+            log.Write(variable + " = ");
+
             match(Tipos.Identificador);
+
             if (ejecuta)
             {
-                float resultado = 0;
-
                 if (getContenido() == "=")
                 {
                     match("=");
                     Expresion();
-                    resultado = stack.Pop();
                 }
                 else if (getClasificacion() == Tipos.IncrementoTermino)
                 {
-                    match(Tipos.IncrementoTermino);
-
-                    if (getContenido() == "++")
+                    foreach (Variable v in lista)
                     {
-                        match("++");
-                        resultado = getValor(variable) + 1;
+                        if (v.getNombre() == variable)
+                        {
+                            v.setAgregada(true);
+                            if (getContenido() == "++")
+                            {
+                                v.setValor(v.getValor() + 1);
+                                match("++");
+                            }
+                            else if (getContenido() == "--")
+                            {
+                                v.setValor(v.getValor() - 1);
+                                match("--");
+                            }
+                            else
+                            {
+                                throw new Error("de sintaxis, operador de incremento no válido", log, linea, columna);
+                            }
+                            stack.Push(v.getValor());
+                        }
                     }
-                    else
-                    {
-                        match("--");
-                        resultado = getValor(variable) - 1;
-                    }
-                    stack.Push(resultado);
                 }
                 else if (getClasificacion() == Tipos.IncrementoFactor)
                 {
-                    Expresion();
-                    float valorExpresion = stack.Pop(); //Push para agregar elementos 
-                    float valorVariable = getValor(variable);
-                    if (getContenido() == "+=")
+                    float resultado;
+                    foreach (Variable v in lista)
                     {
-                        match("+=");
-                        resultado = valorVariable + valorExpresion;
-                    }
-                    else if (getContenido() == "-=")
-                    {
-                        match("-=");
-                        resultado = valorVariable - valorExpresion;
-                    }
-                    else if (getContenido() == "*=")
-                    {
-                        match("*=");
-                        resultado = valorVariable * valorExpresion;
-                    }
-                    else if (getContenido() == "/=")
-                    {
-                        match("/=");
-                        resultado = valorVariable / valorExpresion;
-                    }
-                    else if (getContenido() == "%=")
-                    {
-                        match("%=");
-                        resultado = valorVariable % valorExpresion;
+                        if (v.getNombre() == variable)
+                        {
+                            v.setAgregada(true);
+                            if (float.TryParse(getContenido(), out resultado))
+                            {
+                                // Incremento con operador compuesto (+=, -=, *=, /=, %=)
+                                if (getContenido() == "+=")
+                                {
+                                    match("+=");
+                                    resultado = v.getValor() + resultado;
+                                }
+                                else if (getContenido() == "-=")
+                                {
+                                    match("-=");
+                                    resultado = v.getValor() - resultado;
+                                }
+                                else if (getContenido() == "*=")
+                                {
+                                    match("*=");
+                                    resultado = v.getValor() * resultado;
+                                }
+                                else if (getContenido() == "/=")
+                                {
+                                    match("/=");
+                                    resultado = v.getValor() / resultado;
+                                }
+                                else if (getContenido() == "%=")
+                                {
+                                    match("%=");
+                                    resultado = v.getValor() % resultado;
+                                }
+                                else
+                                {
+                                    throw new Error("de sintaxis, operador de asignación no válido", log, linea, columna);
+                                }
+                                v.setValor(resultado);
+                                stack.Push(resultado);
+                            }
+                            else
+                            {
+                                throw new Error("de sintaxis, el valor después del operador de incremento no es válido", log, linea, columna);
+                            }
+                        }
                     }
                 }
-                match(";");
-                Modifica(variable, resultado);
             }
         }
+
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
         private void While(bool ejecuta)
         {
@@ -460,7 +487,6 @@ namespace Sintaxis_2
                 else
                 {
                     throw new Error("de sintaxis, la variable es de Tipo String", log, linea, columna);
-                    //Scanf(ejecuta);
                 }
             }
             match(")");
@@ -493,9 +519,13 @@ namespace Sintaxis_2
                 float R2 = stack.Pop();
                 float R1 = stack.Pop();
                 if (operador == "+")
+                {
                     stack.Push(R1 + R2);
-                else
+                }
+                else if (operador == "-")
+                {
                     stack.Push(R1 - R2);
+                }
             }
         }
         //Termino -> Factor PorFactor
@@ -516,26 +546,32 @@ namespace Sintaxis_2
                 float R2 = stack.Pop();
                 float R1 = stack.Pop();
                 if (operador == "*")
+                {
                     stack.Push(R1 * R2);
+                }
+                else if (operador == "/")
+                {
+                    stack.Push(R1 / R2);
+                }
+                else if (operador == "%")
+                {
+                    stack.Push(R1 % R2);
+                }
             }
         }
-        //Factor -> numero | identificador | (Expresion)
         //Factor -> numero | identificador | (Expresion)
         private void Factor()
         {
             if (getClasificacion() == Tipos.Numero)
             {
-                string variable = getContenido();
-                match(Tipos.Identificador);
+                log.Write(" " + getContenido());
                 string captura = "" + Console.ReadLine();
                 float resultado;
                 if (float.TryParse(captura, out resultado))
                 {
-                    Modifica(variable, resultado);
                     stack.Push(resultado);
-                    Console.WriteLine("Conversión Exitosa");
-                    match(Tipos.Numero);
                 }
+                match(Tipos.Numero);
             }
             else if (getClasificacion() == Tipos.Identificador)
             {
@@ -543,10 +579,14 @@ namespace Sintaxis_2
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
-                string variable = getContenido();
-                match(Tipos.Identificador);
-                float valorVariable = stack.Pop();
-                Console.WriteLine(valorVariable.ToString());
+                foreach (Variable v in lista)
+                {
+                    if (v.getNombre() == getContenido())
+                    {
+                        stack.Push(v.getValor());
+                    }
+                    match(Tipos.Identificador);
+                }
             }
             else if (getContenido() == "(")
             {
