@@ -42,19 +42,6 @@ namespace Sintaxis_2
             }
             Main(true);
             Imprime();
-            Utilizacion();
-        }
-        private void Utilizacion()
-        {
-            bool utilizar;
-            foreach (Variable v in lista)
-            {
-                utilizar = v.getUtilizada();
-                if (!utilizar)
-                {
-                    Console.WriteLine("Advertencia: La variable <" + v.getNombre() + "> nunca fue utilizada");
-                }
-            }
         }
         private void Imprime()
         {
@@ -69,11 +56,17 @@ namespace Sintaxis_2
         }
         private bool Existe(string nombre)
         {
+            bool agregada;
             foreach (Variable v in lista)
             {
                 if (v.getNombre() == nombre)
                 {
                     return true;
+                }
+                agregada = v.getAgregada();
+                if (!agregada)
+                {
+                    Console.WriteLine("Advertencia: La variable <" + v.getNombre() + "> nunca fue utilizada");
                 }
             }
             return false;
@@ -463,7 +456,6 @@ namespace Sintaxis_2
                 {
                     Modifica(variable, resultado);
                     stack.Push(resultado);
-                    Console.WriteLine("Conversión Exitosa");
                 }
                 else
                 {
@@ -533,9 +525,17 @@ namespace Sintaxis_2
         {
             if (getClasificacion() == Tipos.Numero)
             {
-                float numero = float.TryParse(getClasificacion());
-                stack.Push(numero);
-                match(Tipos.Numero);
+                string variable = getContenido();
+                match(Tipos.Identificador);
+                string captura = "" + Console.ReadLine();
+                float resultado;
+                if (float.TryParse(captura, out resultado))
+                {
+                    Modifica(variable, resultado);
+                    stack.Push(resultado);
+                    Console.WriteLine("Conversión Exitosa");
+                    match(Tipos.Numero);
+                }
             }
             else if (getClasificacion() == Tipos.Identificador)
             {
