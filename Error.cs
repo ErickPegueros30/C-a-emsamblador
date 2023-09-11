@@ -10,7 +10,7 @@ namespace Sintaxis_2
     {
         public Error(string mensaje, StreamWriter log, int linea, int columna) : base(mensaje + " en la linea "+linea+" columna "+columna)
         {
-            log.WriteLine("Error: "+mensaje+" en la linea "+linea+" columna "+columna);
+            log.WriteLine("\nError: "+mensaje+" en la linea "+linea+" columna "+columna);
         }
     }
 }
