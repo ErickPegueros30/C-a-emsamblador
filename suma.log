@@ -1,5 +1,5 @@
 Autor: Alejandro Ruiz Bedolla
-lunes, 11 de septiembre de 2023 10:30:27 a. m.
+lunes, 11 de septiembre de 2023 10:49:08 a. m.
 # | Caracter
 include | Identificador
 < | OperadorRelacional
@@ -113,16 +113,16 @@ b = ++ | IncrementoTermino
 c | Identificador
 c = -- | IncrementoTermino
 ; | FinSentencia
- = 3
+ = 2
 c | Identificador
 c = += | IncrementoFactor
 ( | Caracter
-11 | Numero
- 11- | OperadorTermino
+10 | Numero
+ 10- | OperadorTermino
 b | Identificador
 ) | Caracter
  -; | FinSentencia
- = 5
+ = 3
 b | Identificador
 b = -= | IncrementoFactor
 9 | Numero

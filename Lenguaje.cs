@@ -222,18 +222,14 @@ namespace Sintaxis_2
         //Asignacion -> identificador = Expresion;
         private void Asignacion(bool ejecuta)
         {
-            //string var = getContenido();
-            //Console.WriteLine("Inicio Asignación");
             if (!Existe(getContenido()))
             {
                 throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
             }
             log.Write(getContenido() + " = ");
             string variable = getContenido(); // En Variable se guardó b
-            //Console.WriteLine("Asignación =>"+variable);
             match(Tipos.Identificador);
 
-            //Console.WriteLine("Asignación " + getContenido() + variable);
             if (getContenido() == "=")
             {
                 match("=");
@@ -258,7 +254,6 @@ namespace Sintaxis_2
                             match("--");
                         }
                         stack.Push(v.getValor());
-                        //Console.WriteLine(v.getValor());
                     }
                 }
 
@@ -366,28 +361,19 @@ namespace Sintaxis_2
                                     match(Tipos.Numero);
                 }else{
                     throw new Error("de Parseo", log, linea, columna); 
-                } 
-                                   
+                }   
                                 }
                             }
-                            //Modifica(variable,stack.Pop());
-                    
-                        stack.Push(v.getValor());
+                            stack.Push(v.getValor());
                     }
                 }
-                //Expresion();
-                //Console.WriteLine("VA a haber Match..." + getContenido());
-                //match(Tipos.Numero);
-                //Console.WriteLine("...terminó el Match");
             }
             float resultado = stack.Pop();
-            //Console.WriteLine("Ejecuta??" + resultado);
             log.WriteLine(" = " + resultado);
             if (ejecuta)
             {
                 Modifica(variable, resultado);
             }
-            //Console.WriteLine("Posible error: "+getContenido());
             match(";");
         }
 
@@ -521,11 +507,13 @@ namespace Sintaxis_2
 
             if (ejecuta)
             {
-                string aux = getContenido();
-                aux = getContenido().Replace("\"", "");
-                aux = aux.Replace("\\t", "\t");
-                aux = aux.Replace("\\n", "\n");
-                Console.Write(aux);
+                string comillas = getContenido();
+                if (comillas == getContenido()){
+                comillas = getContenido().Replace("\"", "");
+                comillas = comillas.Replace("\\t", "\t");
+                comillas = comillas.Replace("\\n", "\n");
+                Console.Write(comillas);
+                }
             }
 
             match(Tipos.Cadena);
@@ -541,9 +529,7 @@ namespace Sintaxis_2
                     if (v.getNombre() == getContenido())
                     {
                         v.setAgregada(true);
-                        // Console.WriteLine("Vamos a meter al stack...");
-                        Console.WriteLine(v.getValor());
-                        //Console.WriteLine("... exitosamente");
+                        Console.WriteLine(v.getValor()); 
                     }
                 }
                 match(Tipos.Identificador);
@@ -554,10 +540,8 @@ namespace Sintaxis_2
         }
 
         //Scanf -> scanf(cadena,&Identificador);
-
         private void Scanf(bool ejecuta)
-        {
-            //Console.WriteLine("Estamos en el Scanf");
+        {   
             match("scanf");
             match("(");
             match(Tipos.Cadena);
@@ -606,7 +590,6 @@ namespace Sintaxis_2
         {
             if (getClasificacion() == Tipos.OperadorTermino)
             {
-                float resul;
                 string operador = getContenido();
                 match(Tipos.OperadorTermino);
                 Termino();
@@ -619,8 +602,7 @@ namespace Sintaxis_2
                 }
                 else
                 {
-                    resul = (R1 - R2);
-                    stack.Push(resul);
+                    stack.Push(R1 - R2);
                 }
             }
         }
