@@ -265,106 +265,121 @@ namespace Sintaxis_2
                     if (variable == v.getNombre())
                     {
                         if (getContenido() == "+=")
+                        {
+                            match("+=");
+                            if (getContenido() == "(")
                             {
-                                match("+=");
-                                if (getContenido() == "(")
-                                {
-                                    Expresion();
-                                    v.setValor(v.getValor() + stack.Pop());
-                                }
-                                else
-                                {
-                                    float resultado1;
-                if(float.TryParse(getContenido(),out resultado1)){
-                    v.setValor(v.getValor() + resultado1);
-                                    match(Tipos.Numero);
-                }else{
-                    throw new Error("de Parseo", log, linea, columna); 
-                }   
-                                    
-                                }
+                                Expresion();
+                                v.setValor(v.getValor() + stack.Pop());
                             }
-                            else if (getContenido() == "-=")
+                            else
                             {
-                                match("-=");
-                                if (getContenido() == "(")
+                                float resultado1;
+                                if (float.TryParse(getContenido(), out resultado1))
                                 {
-                                    
-                                    Expresion();
-                                    v.setValor(v.getValor() - stack.Pop());
+                                    v.setValor(v.getValor() + resultado1);
+                                    match(Tipos.Numero);
                                 }
                                 else
                                 {
-                                    float resultado2;
-                if(float.TryParse(getContenido(),out resultado2)){
-                    
+                                    throw new Error("de Parseo", log, linea, columna);
+                                }
+
+                            }
+                        }
+                        else if (getContenido() == "-=")
+                        {
+                            match("-=");
+                            if (getContenido() == "(")
+                            {
+
+                                Expresion();
+                                v.setValor(v.getValor() - stack.Pop());
+                            }
+                            else
+                            {
+                                float resultado2;
+                                if (float.TryParse(getContenido(), out resultado2))
+                                {
+
                                     v.setValor(v.getValor() - resultado2);
                                     match(Tipos.Numero);
-                }else{
-                    throw new Error("de Parseo", log, linea, columna); 
-                } 
-                                }
-                            }
-                            else if (getContenido() == "*=")
-                            {
-                                match("*=");
-                                if (getContenido() == "(")
-                                {
-                                    Expresion();
-                                    v.setValor(v.getValor() * stack.Pop());
                                 }
                                 else
                                 {
-                                    float resultado3;
-                if(float.TryParse(getContenido(),out resultado3)){
-                    v.setValor(v.getValor() * resultado3);
-                                    match(Tipos.Numero);
-                }else{
-                    throw new Error("de Parseo", log, linea, columna); 
-                } 
-                                    
+                                    throw new Error("de Parseo", log, linea, columna);
                                 }
                             }
-                            else if (getContenido() == "/=")
+                        }
+                        else if (getContenido() == "*=")
+                        {
+                            match("*=");
+                            if (getContenido() == "(")
                             {
-                                match("/=");
-                                if (getContenido() == "(")
+                                Expresion();
+                                v.setValor(v.getValor() * stack.Pop());
+                            }
+                            else
+                            {
+                                float resultado3;
+                                if (float.TryParse(getContenido(), out resultado3))
                                 {
-                                    Expresion();
-                                    v.setValor(v.getValor() / stack.Pop());
+                                    v.setValor(v.getValor() * resultado3);
+                                    match(Tipos.Numero);
                                 }
                                 else
                                 {
-                                    float resultado4;
-                if(float.TryParse(getContenido(),out resultado4)){
-                    v.setValor(v.getValor() / resultado4);
-                                    match(Tipos.Numero);
-                }else{
-                    throw new Error("de Parseo", log, linea, columna); 
-                } 
-                                    
+                                    throw new Error("de Parseo", log, linea, columna);
                                 }
+
                             }
-                            else if (getContenido() == "%=")
+                        }
+                        else if (getContenido() == "/=")
+                        {
+                            match("/=");
+                            if (getContenido() == "(")
                             {
-                                match("%=");
-                                if (getContenido() == "(")
+                                Expresion();
+                                v.setValor(v.getValor() / stack.Pop());
+                            }
+                            else
+                            {
+                                float resultado4;
+                                if (float.TryParse(getContenido(), out resultado4))
                                 {
-                                    Expresion();
-                                    v.setValor(v.getValor() % stack.Pop());
+                                    v.setValor(v.getValor() / resultado4);
+                                    match(Tipos.Numero);
                                 }
                                 else
                                 {
-                                    float resultado5;
-                if(float.TryParse(getContenido(),out resultado5)){
-                     v.setValor(v.getValor() % resultado5);
+                                    throw new Error("de Parseo", log, linea, columna);
+                                }
+
+                            }
+                        }
+                        else if (getContenido() == "%=")
+                        {
+                            match("%=");
+                            if (getContenido() == "(")
+                            {
+                                Expresion();
+                                v.setValor(v.getValor() % stack.Pop());
+                            }
+                            else
+                            {
+                                float resultado5;
+                                if (float.TryParse(getContenido(), out resultado5))
+                                {
+                                    v.setValor(v.getValor() % resultado5);
                                     match(Tipos.Numero);
-                }else{
-                    throw new Error("de Parseo", log, linea, columna); 
-                }   
+                                }
+                                else
+                                {
+                                    throw new Error("de Parseo", log, linea, columna);
                                 }
                             }
-                            stack.Push(v.getValor());
+                        }
+                        stack.Push(v.getValor());
                     }
                 }
             }
@@ -508,12 +523,13 @@ namespace Sintaxis_2
             if (ejecuta)
             {
                 string comillas = getContenido();
-                if (comillas == getContenido()){
-                comillas = getContenido().Replace("\"", "");
-                comillas = comillas.Replace("\\t", "\t");
-                comillas = comillas.Replace("\\n", "\n");
-                Console.Write(comillas);
+                if (comillas == getContenido())
+                {
+                    comillas = getContenido().Replace("\"", "");
+                    comillas = comillas.Replace("\\t", "\t");
+                    comillas = comillas.Replace("\\n", "\n");
                 }
+                Console.Write(comillas);
             }
 
             match(Tipos.Cadena);
@@ -529,7 +545,7 @@ namespace Sintaxis_2
                     if (v.getNombre() == getContenido())
                     {
                         v.setAgregada(true);
-                        Console.WriteLine(v.getValor()); 
+                        Console.Write(v.getValor());
                     }
                 }
                 match(Tipos.Identificador);
@@ -541,7 +557,7 @@ namespace Sintaxis_2
 
         //Scanf -> scanf(cadena,&Identificador);
         private void Scanf(bool ejecuta)
-        {   
+        {
             match("scanf");
             match("(");
             match(Tipos.Cadena);

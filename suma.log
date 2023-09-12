@@ -1,5 +1,5 @@
 Autor: Alejandro Ruiz Bedolla
-lunes, 11 de septiembre de 2023 10:49:08 a. m.
+martes, 12 de septiembre de 2023 03:13:44 p. m.
 # | Caracter
 include | Identificador
 < | OperadorRelacional
@@ -25,6 +25,8 @@ a | Identificador
 b | Identificador
 , | Caracter
 c | Identificador
+, | Caracter
+d | Identificador
 ; | FinSentencia
 void | Identificador
 main | Identificador
@@ -52,9 +54,9 @@ a = = | Asignacion
  / - = 61
 b | Identificador
 b = = | Asignacion
-8 | Numero
- 8; | FinSentencia
- = 8
+19 | Numero
+ 19; | FinSentencia
+ = 19
 printf | Identificador
 ( | Caracter
 "Valor de c = " | Cadena
@@ -70,13 +72,11 @@ c | Identificador
 ; | FinSentencia
 if | Condicion
 ( | Caracter
-( | Caracter
 c | Identificador
 % | OperadorFactor
 2 | Numero
- 2) | Caracter
- %== | OperadorRelacional
-0 | Numero
+ 2== | OperadorRelacional
+ %0 | Numero
  0) | Caracter
 { | Inicio
 printf | Identificador
@@ -92,42 +92,69 @@ c | Identificador
  10) | Caracter
 printf | Identificador
 ( | Caracter
-"  El valor de c = " | Cadena
+"Se ejecuta el segundo If " | Cadena
 , | Caracter
 c | Identificador
 ) | Caracter
 ; | FinSentencia
+else | Condicion
+printf | Identificador
+( | Caracter
+" else" | Cadena
+) | Caracter
+; | FinSentencia
+a | Identificador
+a = = | Asignacion
+70 | Numero
+ 70; | FinSentencia
+ = 70
 } | Fin
 else | Condicion
 { | Inicio
 printf | Identificador
 ( | Caracter
-"\nc es impar\t\tITQ" | Cadena
+"\nc es impar\tITQ\n" | Cadena
+) | Caracter
+; | FinSentencia
+if | Condicion
+( | Caracter
+c | Identificador
+== | OperadorRelacional
+11 | Numero
+ 11) | Caracter
+printf | Identificador
+( | Caracter
+"Se ejecuta el segundo if del Else" | Cadena
 ) | Caracter
 ; | FinSentencia
 } | Fin
 b | Identificador
 b = ++ | IncrementoTermino
 ; | FinSentencia
- = 9
+ = 20
 c | Identificador
 c = -- | IncrementoTermino
 ; | FinSentencia
- = 2
+ = 7
+d | Identificador
+d = = | Asignacion
+3 | Numero
+ 3; | FinSentencia
+ = 3
 c | Identificador
 c = += | IncrementoFactor
 ( | Caracter
-10 | Numero
- 10- | OperadorTermino
+15 | Numero
+ 15- | OperadorTermino
 b | Identificador
 ) | Caracter
  -; | FinSentencia
- = 3
+ = 2
 b | Identificador
 b = -= | IncrementoFactor
 9 | Numero
 ; | FinSentencia
- = 0
+ = 11
 printf | Identificador
 ( | Caracter
 "\nEl valor de a = " | Cadena
@@ -137,22 +164,22 @@ a | Identificador
 ; | FinSentencia
 printf | Identificador
 ( | Caracter
-"El valor de b = " | Cadena
+"\nEl valor de b = " | Cadena
 , | Caracter
 b | Identificador
 ) | Caracter
 ; | FinSentencia
 printf | Identificador
 ( | Caracter
-"El valor de c = " | Cadena
+"\nEl valor de d = " | Cadena
 , | Caracter
-c | Identificador
+d | Identificador
 ) | Caracter
 ; | FinSentencia
 printf | Identificador
 ( | Caracter
-"El valor de d = " | Cadena
+"\nEl valor de c = " | Cadena
 , | Caracter
-d | Identificador
-
-Error: de sintaxis, la variable <d> no está declarada en la linea 30 columna 32
+c | Identificador
+) | Caracter
+; | FinSentencia
