@@ -25,3 +25,30 @@ parseo analisis sintaxtico
 
 1 Requerimiento 
 2 el porcentaje reciduo de la division 
+
+-----------------------------------------------------------------------------------------------------------
+UNIDAD 2 20-09-23 
+Semantico y revisar los cuales son los datos en bits 
+En el scan debemos de tener cuidado ya que puede haber sido error Semantico
+
+Nuevos requerimientos para esta UNIDAD
+
+Requerimiento 1: Implemenar la ejecución del while 
+Requerimiento 2: Implementar la ejecución del do while
+Requerimiento 3: Implementar la ejecución del for 
+Requerimiento 4: Marcar errores Semanticos (levantar excepciones)
+Requerimiento 5: Implemenar el CAST
+
+Es de esta semana a la otra ya que durara semana y media este proyecto
+
+Variable.TiposDatos tipoDatoMayor // Como idea o por el tipo de la variable 
+
+PESA MAS EL CASTEO QUE EL TIPO DE LA VARIABLE
+
+DIVISION Y reciduo de la variable
+char % 256 
+int % 65526 
+
+Correguir el Incremento
+y generar un error semantico 
+

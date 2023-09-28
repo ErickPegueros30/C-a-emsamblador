@@ -59,16 +59,17 @@ namespace Sintaxis_2
             {35,35,35,35,35,35,35,35,35,35,35,35,35,35,36, 0,35,35,35, E,35,35, 35, 35,35, 35}, // 36 
           // WS  L  D  .  =  :  ;  &  |  >  <  !  +  -  *  /  %  "  ' EOF ?  # lmds  {   } \n
         };
-        private StreamReader archivo;
+        protected StreamReader archivo;
         protected StreamWriter log;
 
         protected int linea;
         protected int columna;
+        protected int caracter;
         public Lexico()
         {
-            linea = columna = 1;
+            linea = columna = caracter = 1;
             log = new StreamWriter("prueba.log");
-            log.WriteLine("Autor: Alejandro Ruiz Bedolla");
+            log.WriteLine("Autor: Erick Jaimes Pegueros");
             log.WriteLine(thisDay.ToString("F"));
             log.AutoFlush = true;
             if (File.Exists("prueba.cpp"))
@@ -82,9 +83,9 @@ namespace Sintaxis_2
         }
         public Lexico(string nombre)
         {
-            linea = columna = 1;
+            linea = columna = caracter = 1;
             log = new StreamWriter(Path.GetFileNameWithoutExtension(nombre) + ".log");
-            log.WriteLine("Autor: Alejandro Ruiz Bedolla");
+            log.WriteLine("Autor: Erick Jaimes Pegueros");
             log.WriteLine(thisDay.ToString("F"));
             log.AutoFlush = true;
             if (Path.GetExtension(nombre) != ".cpp")
@@ -242,6 +243,7 @@ namespace Sintaxis_2
                 if (Estado >= 0)
                 {
                     archivo.Read();
+                    caracter++;
                     columna++;
                     if (Estado > 0)
                     {
@@ -284,7 +286,7 @@ namespace Sintaxis_2
             }
             if (!FinArchivo())
             {
-                log.WriteLine(getContenido() + " | " + getClasificacion());
+               // log.WriteLine(getContenido() + " | " + getClasificacion());
             }
             if (Estado == E)
             {

@@ -10,7 +10,7 @@ namespace Sintaxis_2
         public enum TiposDatos { Char, Int, Float };
 
         private string nombre;
-        public bool agregada = false;
+        private bool utilizada = false;
         private float valor;
         private TiposDatos tipo;
         public Variable(string nombre, TiposDatos tipo)
@@ -35,13 +35,17 @@ namespace Sintaxis_2
         {
             return valor;
         }
-        public void setAgregada(bool valor)
+        public void setUtilizada(bool valor)
         {
-            this.agregada = valor;
+            this.utilizada = valor;
         }
-        public bool getAgregada(){
-            return agregada;
+        public bool getUtilizada(){
+            return utilizada;
         }
-
+        /*public TiposDatos getTiposDatos()
+        {
+            return this.tipo;
+        }*/
     }
+        
 }
