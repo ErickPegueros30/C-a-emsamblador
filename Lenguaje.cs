@@ -358,7 +358,6 @@ namespace Sintaxis_2
                     if (ejecuta && condicion)
                     {
                         archivo.DiscardBufferedData();
-                        caracter = inicia;
                         caracter = inicia - variable.Length - 1;
                         archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                         nextToken();
@@ -369,6 +368,7 @@ namespace Sintaxis_2
                 // Agregar el código de incremento al final del bucle
                 if (ejecuta)
                 {
+                    
                     resultado = Incremento(ejecuta, variable);
                     Modifica(variable, resultado);
                     archivo.DiscardBufferedData();
@@ -702,7 +702,19 @@ namespace Sintaxis_2
         }
         float castea(float resultado, Variable.TiposDatos tipoDato)
         {
-            return 0;
+            float x;
+            switch (tipoDato)
+            {
+                case Variable.TiposDatos.Char:
+                resultado = MathF.Round(resultado);
+                x = resultado % 256;
+                break;
+                case Variable.TiposDatos.Int:
+                resultado = MathF.Round(resultado);
+                x = resultado % 65526;
+                break;
+            }
+            return resultado;
         }
     }
 }
