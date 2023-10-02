@@ -3,16 +3,60 @@
 #include<iostream>
 
 char  a;
-int   b;
+int   b,i,j;
 float c;
 
 void main() // Funcion principal
 {
-    a = (int)((int)(c) + (float)(b));
-    c = 18.9;
-    a = 65537;
-    b = 9;
+    c = 20;
+    i = 0;
+    printf("C = ");
+    scanf ("%f", &c);
+    a = (char)((char)(c) + (float)(b));
 
-    c = (int)((int)(c) + (float)(1));
-    
+    if (c>=1)
+    {
+        printf("Hola");
+        if (c==2)
+        {
+            printf(" a todos");
+        }
+        else if (c==3)
+        {
+            printf(" a nadie");
+
+            for (i=0; i<10; i++)
+            {
+                printf(" Hola");
+                for (j=0; j<2; j++)
+                {
+                    printf(" Adios");
+                }
+            }   
+        }/*
+        else if (c==4)
+        {
+            i = 0;
+            do 
+            {
+                printf(" \n Hola");
+                i++;                
+            } while (i < 10);
+
+        }*/
+        else
+        {
+            
+            i = 0;
+            while (i<10)
+            {
+                printf("\n¿Como estas?");
+                i++;
+            }
+        }
+    }
+    else
+    {
+        printf("mundo\n");
+    }
 }
