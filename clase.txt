@@ -52,3 +52,68 @@ int % 65526
 Correguir el Incremento
 y generar un error semantico 
 
+
+//While -> while(Condicion) BloqueInstrucciones | Instruccion
+       private void While(bool ejecuta)
+        {
+            match("while");
+            match("(");
+
+            // Declaración de variables para el control del bucle
+            int inicia = caracter;
+            int lineaInicio = linea;
+            bool condicion = false;
+            float resultado = 0;
+            string variable = getContenido();
+
+            do
+            {
+                // Reiniciar las variables de control en cada iteración
+                caracter = inicia;
+                archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                linea = lineaInicio;
+
+                // Evaluar la condición del while
+                condicion = Condicion();
+                match(")");
+                
+                
+
+                if (ejecuta && condicion)
+                {
+                    // Verificar si se ejecuta un bloque o una sola instrucción
+                    if (getContenido() == "{")
+                    {
+                        BloqueInstrucciones(ejecuta && condicion);
+                    }
+                    else
+                    {
+                        Instruccion(ejecuta && condicion);
+                    }
+
+                    // Realizar el incremento de variables si es necesario
+                    if (ejecuta && condicion)
+                    {
+                        archivo.DiscardBufferedData();
+                        caracter = inicia - variable.Length - 1;
+                        archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                        nextToken();
+                        linea = lineaInicio;
+                    }
+                }
+
+                // Agregar el código de incremento al final del bucle
+                if (ejecuta)
+                {
+                    resultado = Incremento(ejecuta, variable);
+                    Modifica(variable, resultado);
+                    archivo.DiscardBufferedData();
+                    caracter = inicia - variable.Length - 1;
+                    archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                    nextToken();
+                    linea = lineaInicio;   
+                }
+            } while (ejecuta);
+            ejecuta = false;
+        }
+

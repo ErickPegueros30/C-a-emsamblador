@@ -1,22 +1,11 @@
 Autor: Guillermo Fernandez Romero
 Fecha: 3-Mayo-2023 15:09
-c =  20 = 20
 i =  0 = 0
-a =  + = 5
- 1 2 3i =  0 = 0
 For: i
- 10j =  0 = 0
-For: j
- 2i =  0 = 0
- 10i =  = 1
- 10i =  = 2
- 10i =  = 3
- 10i =  = 4
- 10i =  = 5
- 10i =  = 6
- 10i =  = 7
- 10i =  = 8
- 10i =  = 9
- 10i =  = 10
- 10
-Error: de sintaxis, la variable <{> no está declarada en la linea 52 columna 14
+ 5 5 5 5 5 5-----------------
+V a r i a b l e s
+-----------------
+altura Float = 0
+i Float = 5
+j Float = 0
+-----------------

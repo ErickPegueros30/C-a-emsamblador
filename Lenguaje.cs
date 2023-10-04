@@ -339,8 +339,9 @@ namespace Sintaxis_2
                 linea = lineaInicio;
 
                 // Evaluar la condición del while
-                condicion = Condicion();
+                condicion = Condicion() && ejecuta;
                 match(")");
+                
 
                 if (ejecuta && condicion)
                 {
@@ -366,33 +367,45 @@ namespace Sintaxis_2
                 }
 
                 // Agregar el código de incremento al final del bucle
-                if (ejecuta)
+                if (ejecuta&&condicion)
                 {
-                    
                     resultado = Incremento(ejecuta, variable);
                     Modifica(variable, resultado);
                     archivo.DiscardBufferedData();
                     caracter = inicia - variable.Length - 1;
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     nextToken();
-                    linea = lineaInicio;
+                    linea = lineaInicio;   
                 }
-            } while (ejecuta);
+            } while (ejecuta && condicion);
+            ejecuta = false;
         }
 
 
 
+
 //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
-        private void Do(bool ejecuta)
+        // Método para manejar el bucle do-while
+private void Do(bool ejecuta)
 {
     match("do");
 
+    int inicia = caracter;
     int lineaInicio = linea;
-    int caracterInicio = caracter;
+    bool condicion;
+    float resultado = 0;
     string variable = getContenido();
 
     do
     {
+        // Reiniciar las variables de control en cada iteración
+        caracter = inicia;
+        Modifica(variable, resultado);
+            archivo.DiscardBufferedData();
+            caracter = inicia - variable.Length - 1;
+        archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+        linea = lineaInicio;
+
         if (getContenido() == "{")
         {
             BloqueInstrucciones(ejecuta);
@@ -402,22 +415,20 @@ namespace Sintaxis_2
             Instruccion(ejecuta);
         }
 
-        // Reinicia la posición del archivo para volver al inicio del bucle
-        archivo.DiscardBufferedData();
-        caracter = caracterInicio;
-        caracter = lineaInicio - variable.Length - 1;
-        archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
-        nextToken();
-        linea = lineaInicio;
-
+        // Evaluar la condición del while al final del bucle
         match("while");
         match("(");
-    }
-    while (Condicion()); // La condición del while determina si se repite el bucle
+        condicion = Condicion();
 
-    match(")");
-    match(";");
+        match(")");
+        match(";");
+    }
+    while (condicion && ejecuta); // El bucle se repetirá si la condición es verdadera y ejecuta es true
+    match ("}");
 }
+
+
+
 
 
         //For -> for(Asignacion Condicion; Incremento) BloqueInstrucciones | Instruccion
@@ -452,11 +463,10 @@ namespace Sintaxis_2
                 {
                     Modifica(variable, resultado);
                     archivo.DiscardBufferedData();
-                    caracter = inicia - variable.Length - 1;
+                    caracter = inicia - variable.Length-1;
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     nextToken();
                     linea = lineaInicio;
-
                 }
             }
             while (ejecuta);
@@ -480,7 +490,7 @@ namespace Sintaxis_2
                 if (ejecuta)
                 {
                     valorActual++;
-                    Modifica(variable, valorActual);
+                    Modifica(variable, valorActual-1);
                 }
             }
             else if (getContenido() == "--")
@@ -489,7 +499,7 @@ namespace Sintaxis_2
                 if (ejecuta)
                 {
                     valorActual--;
-                    Modifica(variable, valorActual);
+                    Modifica(variable, valorActual+1);
                 }
             }
             return valorActual;
@@ -545,6 +555,8 @@ namespace Sintaxis_2
         //Printf -> printf(cadena(,Identificador)?);
         private void Printf(bool ejecuta)
         {
+            float resultado = 0;
+            string variable = getContenido();
             match("printf");
             match("(");
             if (ejecuta)
@@ -563,6 +575,22 @@ namespace Sintaxis_2
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
                 Console.Write(getValor(getContenido()));
+
+                if (ejecuta)
+            {
+                Variable.TiposDatos tipoDatoVariable = getTipo(variable);
+                Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
+
+                if (tipoDatoVariable >= tipoDatoResultado)
+                {
+                    Modifica(variable, resultado);
+                }
+                else
+                {
+                    throw new Error("de semantica, no se puede asignar in <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                }
+            }
+
                 match(Tipos.Identificador);
             }
             match(")");
@@ -689,10 +717,14 @@ namespace Sintaxis_2
                     }
                     match(Tipos.TipoDato);
                     match(")");
+                    if (getContenido() == "("){
                     match("(");
+                    }
                 }
                 Expresion();
+                if (getContenido() == ")"){
                 match(")");
+                }
                 if (huboCast)
                 {
                     tipoDatoExpresion = tipoDatoCast;
@@ -708,11 +740,11 @@ namespace Sintaxis_2
                 case Variable.TiposDatos.Char:
                 resultado = MathF.Round(resultado);
                 x = resultado % 256;
-                break;
+                return x;
                 case Variable.TiposDatos.Int:
                 resultado = MathF.Round(resultado);
                 x = resultado % 65526;
-                break;
+                return x;
             }
             return resultado;
         }
