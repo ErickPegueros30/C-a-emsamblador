@@ -322,69 +322,39 @@ namespace Sintaxis_2
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
         private void While(bool ejecuta)
         {
-            match("while");
-            match("(");
-
-            // Declaración de variables para el control del bucle
             int inicia = caracter;
             int lineaInicio = linea;
-            bool condicion = false;
-            float resultado = 0;
             string variable = getContenido();
 
+            log.WriteLine("While: "+ variable);
 
             do
             {
+                match("while");
+            match("(");
 
-
-                // Evaluar la condición del while
-                condicion = Condicion() && ejecuta;
+                ejecuta = Condicion() && ejecuta;
                 match(")");
-
+                
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(ejecuta);
+                }
+                else
+                {
+                    Instruccion(ejecuta);
+                }
                 if (ejecuta)
                 {
-                    // Verificar si se ejecuta un bloque o una sola instrucción
-                    if (getContenido() == "{")
-                    {
-                        BloqueInstrucciones(ejecuta && condicion);
-                    }
-                    else
-                    {
-                        Instruccion(ejecuta && condicion);
-                    }
-
-                    // Realizar el incremento de variables si es necesario
-                    if (ejecuta)
-                    {
-                        archivo.DiscardBufferedData();
-                        caracter = inicia - variable.Length - 1;
-                        archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
-                        nextToken();
-                        linea = lineaInicio;
-                        match("(");
-
-                    }
-                }
-
-                // Agregar el código de incremento al final del bucle
-                if (ejecuta && condicion)
-                {
-                    resultado = Incremento(ejecuta, variable);
-                    Modifica(variable, resultado);
                     archivo.DiscardBufferedData();
-                    caracter = inicia - variable.Length - 1;
+                    caracter = inicia - 5;
+                    //Console.WriteLine("Aqui que sale" + caracter);
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     nextToken();
                     linea = lineaInicio;
-
                 }
-                //condicion = ejecuta = false;
-                
             }
-
             while (ejecuta);
-            condicion = Condicion() && ejecuta;
-            condicion = ejecuta = false;
             //match (")");
         }
 
@@ -392,43 +362,38 @@ namespace Sintaxis_2
         // Método para manejar el bucle do-while
 private void Do(bool ejecuta)
 {
-    match("do");
-
     int inicia = caracter;
-    int lineaInicio = linea;
-    bool condicion;
-    float resultado = 0;
-    string variable = getContenido();
+            int lineaInicio = linea;
+            log.WriteLine("do: ");
 
-    do
-    {
-        // Reiniciar las variables de control en cada iteración
-        caracter = inicia;
-        Modifica(variable, resultado);
-            archivo.DiscardBufferedData();
-            caracter = inicia - variable.Length - 1;
-        archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
-        linea = lineaInicio;
+            do
+            {
+                match("do");
 
-        if (getContenido() == "{")
-        {
-            BloqueInstrucciones(ejecuta);
-        }
-        else
-        {
-            Instruccion(ejecuta);
-        }
-
-        // Evaluar la condición del while al final del bucle
-        match("while");
-        match("(");
-        condicion = Condicion();
-
-        match(")");
-        match(";");
-    }
-    while (condicion && ejecuta); // El bucle se repetirá si la condición es verdadera y ejecuta es true
-    match ("}");
+                
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(ejecuta);
+                }
+                else
+                {
+                    Instruccion(ejecuta);
+                }
+                if (ejecuta)
+                {
+                    archivo.DiscardBufferedData();
+                    caracter = inicia - 2;
+                    //Console.WriteLine("Aqui que sale" + caracter);
+                    archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                    nextToken();
+                    linea = lineaInicio;
+                }
+                match("while");
+                match("(");
+                ejecuta = Condicion() && ejecuta;
+                match(")");
+            }
+            while (ejecuta);
 }
 
 
@@ -467,10 +432,15 @@ private void Do(bool ejecuta)
                 {
                     Modifica(variable, resultado);
                     archivo.DiscardBufferedData();
+                    //Console.WriteLine("Aqui andamos porque aca fue donde nos puso la vida" + archivo);
                     caracter = inicia - variable.Length-1;
+                    //Console.WriteLine("Aqui que sale" + caracter);
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                    //Console.WriteLine("Aqui que sale" + archivo);
                     nextToken();
+                    //Console.WriteLine("Aqui que: "+getContenido());
                     linea = lineaInicio;
+                    //Console.WriteLine("Aqui que sale" + linea);
                 }
             }
             while (ejecuta);
@@ -621,7 +591,17 @@ private void Do(bool ejecuta)
             {
                 string captura = "" + Console.ReadLine();
                 float resultado = float.Parse(captura);
-                Modifica(variable, resultado);
+                Variable.TiposDatos tipoDatoVariable = getTipo(variable);
+                Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
+
+                if (tipoDatoVariable >= tipoDatoResultado)
+                {
+                    Modifica(variable, resultado);
+                }
+                else
+                {
+                    throw new Error("de semantica, no se puede asignar in <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                }
             }
             match(")");
             match(";");

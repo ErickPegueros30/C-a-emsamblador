@@ -1,41 +1,59 @@
-#include <stdio.h>
-#include <math.h>
-#include <iostream>
+#include<stdio.h>
+#include<math.h>
+#include<iostream>
 
-char altura,i,j;
+char  a;
+int   b,i,j;
+float c;
 
 void main() // Funcion principal
 {
-    printf("\nAltura: ");
-    scanf("&i",&altura);
+    c = 20;
+    i = 0;
+    printf("C = ");
+    scanf ("%f", &c);
+    a = (char)((char)(c) + (float)(b));
 
-    printf("\nfor:\n");
-    for (i = 1; i <= altura; i++)
+    if (c>=1)
     {
-        for (j = 250; j < 250+i; j++)
+        printf("Hola");
+        if (c==2)
         {
-            if (j%2==0)
-                printf("-");
-            else
-                printf("+");
+            printf(" a todos");
         }
-        printf("\n");
-    }
-    printf("\nwhile:\n");
-    i = 1;
-    while (i <= altura)
-    {
-        j = 250;
-        while (j < 250+i)
+        else if (c==3)
         {
-            if (j%2==0)
-                printf("-");
-            else
-                printf("+");
-            j++;
-        }
-        i++;
-        printf("\n");
-    }
+            printf(" a nadie");
 
+            for (i=0; i<10; i++)
+            {
+                printf(" Hola");
+                for (j=0; j<2; j++)
+                {
+                    printf(" Adios");
+                }
+            }   
+        }
+        else if (c==4)
+        {
+            do 
+            {
+                printf(" \n Hola");
+                i++;                
+            } while (i < 10);
+
+        }
+        else
+        {
+            while (i<10)
+            {
+                printf("\n¿Como estas?");
+                i++;
+            }
+        }
+    }
+    else
+    {
+        printf("mundo\n");
+    }
 }
