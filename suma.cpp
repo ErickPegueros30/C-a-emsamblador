@@ -2,12 +2,40 @@
 #include <math.h>
 #include <iostream>
 
-float altura,i,j;
+char altura,i,j;
 
 void main() // Funcion principal
 {
-    for (i =0; i < 5; i++)
+    printf("\nAltura: ");
+    scanf("&i",&altura);
+
+    printf("\nfor:\n");
+    for (i = 1; i <= altura; i++)
     {
-        printf("\nHola: ",i);
+        for (j = 250; j < 250+i; j++)
+        {
+            if (j%2==0)
+                printf("-");
+            else
+                printf("+");
+        }
+        printf("\n");
     }
+    printf("\nwhile:\n");
+    i = 1;
+    while (i <= altura)
+    {
+        j = 250;
+        while (j < 250+i)
+        {
+            if (j%2==0)
+                printf("-");
+            else
+                printf("+");
+            j++;
+        }
+        i++;
+        printf("\n");
+    }
+
 }

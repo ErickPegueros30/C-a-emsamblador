@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mime;
 using System.Threading.Tasks;
 
 /*
@@ -319,7 +320,7 @@ namespace Sintaxis_2
         }
 
         //While -> while(Condicion) BloqueInstrucciones | Instruccion
-       private void While(bool ejecuta)
+        private void While(bool ejecuta)
         {
             match("while");
             match("(");
@@ -331,19 +332,16 @@ namespace Sintaxis_2
             float resultado = 0;
             string variable = getContenido();
 
+
             do
             {
-                // Reiniciar las variables de control en cada iteración
-                caracter = inicia;
-                archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
-                linea = lineaInicio;
+
 
                 // Evaluar la condición del while
                 condicion = Condicion() && ejecuta;
                 match(")");
-                
 
-                if (ejecuta && condicion)
+                if (ejecuta)
                 {
                     // Verificar si se ejecuta un bloque o una sola instrucción
                     if (getContenido() == "{")
@@ -356,18 +354,20 @@ namespace Sintaxis_2
                     }
 
                     // Realizar el incremento de variables si es necesario
-                    if (ejecuta && condicion)
+                    if (ejecuta)
                     {
                         archivo.DiscardBufferedData();
                         caracter = inicia - variable.Length - 1;
                         archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                         nextToken();
                         linea = lineaInicio;
+                        match("(");
+
                     }
                 }
 
                 // Agregar el código de incremento al final del bucle
-                if (ejecuta&&condicion)
+                if (ejecuta && condicion)
                 {
                     resultado = Incremento(ejecuta, variable);
                     Modifica(variable, resultado);
@@ -375,14 +375,18 @@ namespace Sintaxis_2
                     caracter = inicia - variable.Length - 1;
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     nextToken();
-                    linea = lineaInicio;   
+                    linea = lineaInicio;
+
                 }
-            } while (ejecuta && condicion);
-            ejecuta = false;
+                //condicion = ejecuta = false;
+                
+            }
+
+            while (ejecuta);
+            condicion = Condicion() && ejecuta;
+            condicion = ejecuta = false;
+            //match (")");
         }
-
-
-
 
 //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
         // Método para manejar el bucle do-while
@@ -574,8 +578,11 @@ private void Do(bool ejecuta)
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
+                if (ejecuta)
+                {
                 Console.Write(getValor(getContenido()));
 
+                }
                 if (ejecuta)
             {
                 Variable.TiposDatos tipoDatoVariable = getTipo(variable);
