@@ -361,45 +361,48 @@ namespace Sintaxis_2
         //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
         // Método para manejar el bucle do-while
         private void Do(bool ejecuta)
-{
-    int inicia = caracter;
-    int lineaInicio = linea;
-
-    log.WriteLine("do:");
-
-    do
-    {
-        match("do");
-
-        if (getContenido() == "{")
         {
-            BloqueInstrucciones(ejecuta);
+            int inicia = caracter;
+            int lineaInicio = linea;
+
+            log.WriteLine("do:");
+
+            while (ejecuta) // Cambiamos a un bucle while infinito
+            {
+                match("do");
+
+                if (getContenido() == "{")
+                {
+                    BloqueInstrucciones(ejecuta);
+                }
+                else
+                {
+                    Instruccion(ejecuta);
+                }
+                match("while");
+                match("(");
+
+                ejecuta = Condicion() && ejecuta;
+
+                match(")");
+                match(";");
+
+                if (ejecuta)
+                {
+                    archivo.DiscardBufferedData();
+                    caracter = inicia - 2;
+                    archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+                    nextToken();
+                    linea = lineaInicio;
+                }
+
+                if (!ejecuta) // Salimos del bucle si la condición no es verdadera
+                {
+                    break;
+                }
+            }
         }
-        else
-        {
-            Instruccion(ejecuta);
-        }
-         match("while");
-        match("(");
 
-        ejecuta = Condicion() && ejecuta;
-
-        match(")");
-        match(";");
-
-        if (ejecuta)
-        {
-            archivo.DiscardBufferedData();
-            caracter = inicia - 2;
-            archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
-            nextToken();
-            linea = lineaInicio;
-        }
-
-       
-    }
-    while (ejecuta); // El bucle se repetirá si la condición es verdadera
-}
 
 
         //For -> for(Asignacion Condicion; Incremento) BloqueInstrucciones | Instruccion
@@ -725,18 +728,34 @@ namespace Sintaxis_2
         }
         float castea(float resultado, Variable.TiposDatos tipoDato)
         {
-            float x;
-            switch (tipoDato)
+            float aux;
+
+            // Comprobamos si tipoDato es igual a Variable.TiposDatos.Char
+            if (tipoDato == Variable.TiposDatos.Char)
             {
-                case Variable.TiposDatos.Char:
-                    resultado = MathF.Round(resultado);
-                    x = resultado % 256;
-                    return x;
-                case Variable.TiposDatos.Int:
-                    resultado = MathF.Round(resultado);
-                    x = resultado % 65526;
-                    return x;
+                // Redondeamos el resultado al número entero más cercano
+                resultado = MathF.Round(resultado);
+
+                // Calculamos el módulo de resultado con 256
+                aux = resultado % 256;
+
+                // Devolvemos el valor 
+                return aux;
             }
+            // Comprobamos si tipoDato es igual a Variable.TiposDatos.Int
+            else if (tipoDato == Variable.TiposDatos.Int)
+            {
+                // Redondeamos el resultado al número entero más cercano
+                resultado = MathF.Round(resultado);
+
+                // Calculamos el módulo de resultado con 65526 y lo asignamos a x
+                aux = resultado % 65526;
+
+                // Devolvemos el valor de x
+                return aux;
+            }
+
+            // Si tipoDato no es ni Char ni Int, devolvemos el resultado original sin cambios
             return resultado;
         }
     }
