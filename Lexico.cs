@@ -81,7 +81,7 @@ namespace Sintaxis_2
         {
             linea = columna = caracter = 1;
             log = new StreamWriter(Path.GetFileNameWithoutExtension(nombre) + ".log");
-            log.WriteLine("Autor: Guillermo Fernandez Romero");
+            log.WriteLine("Autor: Erick Jaimes Pegueros");
             log.WriteLine("Fecha: 3-Mayo-2023 15:09");
             log.AutoFlush = true;
             if (Path.GetExtension(nombre) != ".cpp")
