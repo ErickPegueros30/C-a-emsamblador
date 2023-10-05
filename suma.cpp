@@ -1,59 +1,61 @@
-#include<stdio.h>
-#include<math.h>
-#include<iostream>
+#include <stdio.h>
+#include <math.h>
+#include <iostream>
 
-char  a;
-int   b,i,j;
-float c;
+char altura,i,j,k; 
 
 void main() // Funcion principal
 {
-    c = 20;
-    i = 0;
-    printf("C = ");
-    scanf ("%f", &c);
-    a = (char)((char)(c) + (float)(b));
+    k = (int)(10);
+    //k = 1.5;
+    k = (int)((char)(1.5));
 
-    if (c>=1)
+    printf("\nAltura: ");
+    scanf("&i",&altura);
+
+    printf("\nfor:\n");
+    for (i = 1; i <= altura; i++)
     {
-        printf("Hola");
-        if (c==2)
+        for (j = 250; j < 250+i; j++)
         {
-            printf(" a todos");
+            if (j%2==0)
+                printf("-");
+            else
+                printf("+");
         }
-        else if (c==3)
-        {
-            printf(" a nadie");
-
-            for (i=0; i<10; i++)
-            {
-                printf(" Hola");
-                for (j=0; j<2; j++)
-                {
-                    printf(" Adios");
-                }
-            }   
-        }
-        else if (c==4)
-        {
-            do 
-            {
-                printf(" \n Hola");
-                i++;                
-            } while (i < 10);
-
-        }
-        else
-        {
-            while (i<10)
-            {
-                printf("\n¿Como estas?");
-                i++;
-            }
-        }
+        printf("\n");
     }
-    else
+    printf("\nwhile:\n");
+    i = 1;
+    while (i <= altura)
     {
-        printf("mundo\n");
+        j = 250;
+        while (j < 250+i)
+        {
+            if (j%2==0)
+                printf("-");
+            else
+                printf("+");
+            j++;
+        }
+        i++;
+        printf("\n");
     }
+    printf("\ndo:\n");
+    i = 1;
+    do
+    {
+        j = 250;
+        do
+        {
+            if (j%2==0)
+                printf("-");
+            else
+                printf("+");
+            j++;
+        } while (j < 250+i);
+        i++;
+        printf("\n");
+    } while (i <= altura);
+
 }

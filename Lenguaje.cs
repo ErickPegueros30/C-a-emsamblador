@@ -326,16 +326,16 @@ namespace Sintaxis_2
             int lineaInicio = linea;
             string variable = getContenido();
 
-            log.WriteLine("While: "+ variable);
+            log.WriteLine("While: " + variable);
 
             do
             {
                 match("while");
-            match("(");
+                match("(");
 
                 ejecuta = Condicion() && ejecuta;
                 match(")");
-                
+
                 if (getContenido() == "{")
                 {
                     BloqueInstrucciones(ejecuta);
@@ -358,46 +358,48 @@ namespace Sintaxis_2
             //match (")");
         }
 
-//Do -> do BloqueInstrucciones | Instruccion while(Condicion)
+        //Do -> do BloqueInstrucciones | Instruccion while(Condicion)
         // Método para manejar el bucle do-while
-private void Do(bool ejecuta)
+        private void Do(bool ejecuta)
 {
     int inicia = caracter;
-            int lineaInicio = linea;
-            log.WriteLine("do: ");
+    int lineaInicio = linea;
 
-            do
-            {
-                match("do");
+    log.WriteLine("do:");
 
-                
-                if (getContenido() == "{")
-                {
-                    BloqueInstrucciones(ejecuta);
-                }
-                else
-                {
-                    Instruccion(ejecuta);
-                }
-                if (ejecuta)
-                {
-                    archivo.DiscardBufferedData();
-                    caracter = inicia - 2;
-                    //Console.WriteLine("Aqui que sale" + caracter);
-                    archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
-                    nextToken();
-                    linea = lineaInicio;
-                }
-                match("while");
-                match("(");
-                ejecuta = Condicion() && ejecuta;
-                match(")");
-            }
-            while (ejecuta);
+    do
+    {
+        match("do");
+
+        if (getContenido() == "{")
+        {
+            BloqueInstrucciones(ejecuta);
+        }
+        else
+        {
+            Instruccion(ejecuta);
+        }
+         match("while");
+        match("(");
+
+        ejecuta = Condicion() && ejecuta;
+
+        match(")");
+        match(";");
+
+        if (ejecuta)
+        {
+            archivo.DiscardBufferedData();
+            caracter = inicia - 2;
+            archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
+            nextToken();
+            linea = lineaInicio;
+        }
+
+       
+    }
+    while (ejecuta); // El bucle se repetirá si la condición es verdadera
 }
-
-
-
 
 
         //For -> for(Asignacion Condicion; Incremento) BloqueInstrucciones | Instruccion
@@ -433,7 +435,7 @@ private void Do(bool ejecuta)
                     Modifica(variable, resultado);
                     archivo.DiscardBufferedData();
                     //Console.WriteLine("Aqui andamos porque aca fue donde nos puso la vida" + archivo);
-                    caracter = inicia - variable.Length-1;
+                    caracter = inicia - variable.Length - 1;
                     //Console.WriteLine("Aqui que sale" + caracter);
                     archivo.BaseStream.Seek(caracter, SeekOrigin.Begin);
                     //Console.WriteLine("Aqui que sale" + archivo);
@@ -464,7 +466,7 @@ private void Do(bool ejecuta)
                 if (ejecuta)
                 {
                     valorActual++;
-                    Modifica(variable, valorActual-1);
+                    Modifica(variable, valorActual - 1);
                 }
             }
             else if (getContenido() == "--")
@@ -473,7 +475,7 @@ private void Do(bool ejecuta)
                 if (ejecuta)
                 {
                     valorActual--;
-                    Modifica(variable, valorActual+1);
+                    Modifica(variable, valorActual + 1);
                 }
             }
             return valorActual;
@@ -550,23 +552,23 @@ private void Do(bool ejecuta)
                 }
                 if (ejecuta)
                 {
-                Console.Write(getValor(getContenido()));
+                    Console.Write(getValor(getContenido()));
 
                 }
                 if (ejecuta)
-            {
-                Variable.TiposDatos tipoDatoVariable = getTipo(variable);
-                Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
+                {
+                    Variable.TiposDatos tipoDatoVariable = getTipo(variable);
+                    Variable.TiposDatos tipoDatoResultado = getTipo(resultado);
 
-                if (tipoDatoVariable >= tipoDatoResultado)
-                {
-                    Modifica(variable, resultado);
+                    if (tipoDatoVariable >= tipoDatoResultado)
+                    {
+                        Modifica(variable, resultado);
+                    }
+                    else
+                    {
+                        throw new Error("de semantica, no se puede asignar in <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
+                    }
                 }
-                else
-                {
-                    throw new Error("de semantica, no se puede asignar in <" + tipoDatoResultado + "> a un <" + tipoDatoVariable + ">", log, linea, columna);
-                }
-            }
 
                 match(Tipos.Identificador);
             }
@@ -704,13 +706,15 @@ private void Do(bool ejecuta)
                     }
                     match(Tipos.TipoDato);
                     match(")");
-                    if (getContenido() == "("){
-                    match("(");
+                    if (getContenido() == "(")
+                    {
+                        match("(");
                     }
                 }
                 Expresion();
-                if (getContenido() == ")"){
-                match(")");
+                if (getContenido() == ")")
+                {
+                    match(")");
                 }
                 if (huboCast)
                 {
@@ -725,13 +729,13 @@ private void Do(bool ejecuta)
             switch (tipoDato)
             {
                 case Variable.TiposDatos.Char:
-                resultado = MathF.Round(resultado);
-                x = resultado % 256;
-                return x;
+                    resultado = MathF.Round(resultado);
+                    x = resultado % 256;
+                    return x;
                 case Variable.TiposDatos.Int:
-                resultado = MathF.Round(resultado);
-                x = resultado % 65526;
-                return x;
+                    resultado = MathF.Round(resultado);
+                    x = resultado % 65526;
+                    return x;
             }
             return resultado;
         }
