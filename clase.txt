@@ -52,5 +52,10 @@ int % 65526
 Correguir el Incremento
 y generar un error semantico 
 
+----------------------------------------------------------------
 
-
+UNIDAD 3
+Agregamos en lexico que desarrolle una prueba .asm 
+tip para requerimientos buscar la libreria de scan y printf en ensamblador
+++ INC
+-- DEC
