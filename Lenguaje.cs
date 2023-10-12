@@ -504,7 +504,7 @@ namespace Sintaxis_2
             asm.WriteLine("POP BX"); // Expresion 2
             asm.WriteLine("POP AX"); // Expresion 1
 
-            asm.WriteLine("CMP BX, AX");
+            asm.WriteLine("CMP AX, BX");
 
             switch (operador)
             {
@@ -713,6 +713,8 @@ namespace Sintaxis_2
                 {
                     throw new Error("de sintaxis, la variable <" + getContenido() + "> no está declarada", log, linea, columna);
                 }
+                asm.WriteLine("MOV AX, "+getContenido());
+                asm.WriteLine("PUSH AX");
                 stack.Push(getValor(getContenido()));
                 match(Tipos.Identificador);
                 if (tipoDatoExpresion < getTipo(getContenido()))
