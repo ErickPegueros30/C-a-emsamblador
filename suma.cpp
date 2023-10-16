@@ -6,28 +6,30 @@ char altura,i,j,k;
 
 void main() // Funcion principal
 {
+    for (i=0; i<10; i++)
+    {
+        printf("\nHola");
+        k = i;
+        for (j=0; j<10; j++)
+        {
+            printf("\n Adios");
+        }
+    }
     // k = (int)(10);
     // k = 1.5;
     // k = (int)((char)(1.5));
+    /**
+    k = (3+5)*8-(10-4)/2; // 61
 
-    /*k = (3+5)-(10-4); // 2
-
-    if(1=1)
+    if (1==1)
     {
-        k=2;
-        if(k=61)
+        if (k == 61)
         {
-            k=3;
+            k = 3;
         }
+        k = 2;
     }
-
     */
-   for(i=0;i<10;i++)
-   {
-    printf("\n Hola");
-    k=i;
-   }
-    
     //*8 - (10-4)/2;
 
     /*

@@ -59,3 +59,9 @@ Agregamos en lexico que desarrolle una prueba .asm
 tip para requerimientos buscar la libreria de scan y printf en ensamblador
 ++ INC
 -- DEC
+
+% o reciduo se queda en DX
+
+hacer una parametricacion de palametro de primera vez
+
+en termino, factor por factor mas termino, condicion, Asignacion, 
