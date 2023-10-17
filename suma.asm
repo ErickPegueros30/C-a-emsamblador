@@ -2,8 +2,24 @@
 ; Fecha: 3-Mayo-2023
 include 'emu8086.inc'
 org 100h
+print ''
+printn ' '
+print 'Este requerimiento ya debe de quedar'
+printn ' '
+print ''
+print 'Este comentario no tiene espacio'
+print 'Aqui quien sabe que pase'
+printn ' '
+print ''
+print ''
+printn ' '
+print 'Ingresa el valor de la altura'
+printn ' '
+print ''
+CALL SCAN_NUM
+MOV altura,CX
 ; For: 1
-MOV AX, 0
+MOV AX, 1
 PUSH AX
 POP AX
 ; Asignacion i
@@ -11,19 +27,14 @@ MOV i, AX
 InicioFor1:
 MOV AX, i
 PUSH AX
-MOV AX, 10
+MOV AX, altura
 PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JAE FinFor1
-MOV AX, i
-PUSH AX
-POP AX
-; Asignacion k
-MOV k, AX
+JA FinFor1
 ; For: 2
-MOV AX, 0
+MOV AX, 250
 PUSH AX
 POP AX
 ; Asignacion j
@@ -31,218 +42,196 @@ MOV j, AX
 InicioFor2:
 MOV AX, j
 PUSH AX
-MOV AX, 10
+MOV AX, 250
+PUSH AX
+MOV AX, i
+PUSH AX
+POP BX
+POP AX
+ADD AX, BX
 PUSH AX
 POP BX
 POP AX
 CMP AX, BX
 JAE FinFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
-INC j
-JMP InicioFor2
+; if: 1
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif1
+print '-'
+Eif1:
 INC j
 JMP InicioFor2
 FinFor2:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 3
-POP AX
-; Asignacion j
-MOV j, AX
+; if: 2
 MOV AX, j
 PUSH AX
-MOV AX, 10
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
 PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JAE FinFor3
-FinFor3:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 4
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor4
-FinFor4:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 5
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor5
-FinFor5:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 6
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor6
-FinFor6:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 7
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor7
-FinFor7:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 8
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor8
-FinFor8:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 9
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor9
-FinFor9:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 10
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor10
-FinFor10:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 11
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor11
-FinFor11:
-INC i
-JMP InicioFor1
-POP AX
-; Asignacion k
-MOV k, AX
-; For: 12
-POP AX
-; Asignacion j
-MOV j, AX
-MOV AX, j
-PUSH AX
-MOV AX, 10
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JAE FinFor12
-FinFor12:
+JNE Eif2
+Eif2:
+print ''
+printn ' '
+print ''
 INC i
 JMP InicioFor1
 FinFor1:
+; For: 3
+; if: 3
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif3
+print '-'
+Eif3:
+; if: 4
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif4
+Eif4:
+print '+'
+; if: 5
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif5
+Eif5:
+; For: 4
+; if: 6
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif6
+print '-'
+Eif6:
+; if: 7
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif7
+Eif7:
+print '+'
+; if: 8
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif8
+print '-'
+Eif8:
+; if: 9
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif9
+Eif9:
+; For: 5
+; if: 10
+MOV AX, j
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH DX
+MOV AX, 0
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JNE Eif10
+Eif10:
 int 20h
 RET
 define_scan_num

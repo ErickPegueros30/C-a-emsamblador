@@ -6,8 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 /*
-    Requerimiento 1: Programar scanf 
-    Requerimiento 2: Programar printf
+    Requerimiento 1: Programar scanf LISTO
+    Requerimiento 2: Programar printf LISTO
     Requerimiento 3: Programar ++,--,+=,-=,*=,/=,%=
     Requerimiento 4: Programar else
     Requerimiento 5: Programar do para que gerenre una sola vez el codigo
@@ -219,7 +219,7 @@ namespace Sintaxis_2
         {
             if (getContenido() == "printf")
             {
-                Printf(ejecuta);
+                Printf(ejecuta, primeraVez);
             }
             else if (getContenido() == "scanf")
             {
@@ -418,12 +418,12 @@ namespace Sintaxis_2
         }
         //For -> for(Asignacion Condicion; Incremento) BloqueInstrucciones | Instruccion
 
-        private void For(bool ejecuta, bool primera)
+        private void For(bool ejecuta, bool primeraVez)
         {
             asm.WriteLine("; For: "+contFor);
             match("for");
             match("(");
-            Asignacion(ejecuta,primera);
+            Asignacion(ejecuta,primeraVez);
 
             string etiquetaInicio = "InicioFor"+ contFor;
             string etiquetaFin    = "FinFor"+ contFor++;
@@ -432,10 +432,9 @@ namespace Sintaxis_2
             int lineaInicio = linea;
             float resultado = 0;
             string variable = getContenido();
-            bool primeraVez = true;
 
             log.WriteLine("for: " + variable);
-            if (primera)
+            if (primeraVez)
             {
                 asm.WriteLine(etiquetaInicio+":");
             }
@@ -455,14 +454,14 @@ namespace Sintaxis_2
                 }
                 if (getValor(variable) < resultado)
                 {
-                    if (primera)
+                    if (primeraVez)
                     {
                         asm.WriteLine("INC " + variable);
                     }
                 }
                 else if (getValor(variable) > resultado)
                 {
-                    if (primera)
+                    if (primeraVez)
                     {
                         asm.WriteLine("DEC " + variable);
                     }
@@ -486,17 +485,15 @@ namespace Sintaxis_2
                     linea = lineaInicio;
                     
                 }
-                if (primera)
+                if (primeraVez)
                 {
                     asm.WriteLine("JMP " + etiquetaInicio);
+                    asm.WriteLine(etiquetaFin+":");
                 }
                 primeraVez = false;
             }
             while (ejecuta);
-            if (primeraVez)
-            {
-            asm.WriteLine(etiquetaFin+":");
-            }
+            
         }
 
         //Incremento -> Identificador ++ | --
@@ -589,16 +586,22 @@ namespace Sintaxis_2
             }
         }
         //Printf -> printf(cadena(,Identificador)?);
-        private void Printf(bool ejecuta)
+        private void Printf(bool ejecuta, bool primeraVez)
         {
             match("printf");
             match("(");
             if (ejecuta)
             {
                 string cadena = getContenido().TrimStart('"');
+                string CadenaEnsamblador = cadena;
                 cadena = cadena.Remove(cadena.Length - 1);
+                CadenaEnsamblador = cadena.Remove(CadenaEnsamblador.Length-1);
                 cadena = cadena.Replace(@"\n", "\n");
+                CadenaEnsamblador = CadenaEnsamblador.Replace(@"\n", "'\nprintn ' '\nprint '");
                 Console.Write(cadena);
+                if (primeraVez){
+                asm.WriteLine("print '"+CadenaEnsamblador+"'");
+                }
             }
             match(Tipos.Cadena);
             if (getContenido() == ",")
@@ -611,6 +614,10 @@ namespace Sintaxis_2
                 if (ejecuta)
                 {
                     Console.Write(getValor(getContenido()));
+                    if (primeraVez){
+                    asm.WriteLine("MOV AX, "+getContenido());
+                    asm.WriteLine("CALL PRINT_NUM");
+                    }
                 }
                 match(Tipos.Identificador);
             }
@@ -634,8 +641,10 @@ namespace Sintaxis_2
             if (ejecuta)
             {
                 string captura = "" + Console.ReadLine();
+                asm.WriteLine("CALL SCAN_NUM");
                 float resultado = float.Parse(captura);
                 Modifica(variable, resultado);
+                asm.WriteLine("MOV "+variable+",CX");
             }
             match(")");
             match(";");
