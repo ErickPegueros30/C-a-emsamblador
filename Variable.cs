@@ -23,7 +23,7 @@ namespace Sintaxis_2
         {
             return nombre;
         }
-        public TiposDatos getTipoDato()
+        public TiposDatos getTiposDatos()
         {
             return this.tipo;
         }

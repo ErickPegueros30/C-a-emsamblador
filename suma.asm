@@ -1,23 +1,53 @@
-; Autor: Guillermo Fernandez Romero
-; Fecha: 3-Mayo-2023
+; Autor: Erick Jaimes Pegueros
+;sábado, 4 de noviembre de 2023 12:14:11 p. m.
 include 'emu8086.inc'
 org 100h
+MOV AX, 3
+PUSH AX
+MOV AX, 5
+PUSH AX
+POP BX
+POP AX
+ADD AX, BX
+PUSH AX
+MOV AX, 8
+PUSH AX
+POP BX
+POP AX
+MUL  BX
+PUSH AX
+MOV AX, 10
+PUSH AX
+MOV AX, 4
+PUSH AX
+POP BX
+POP AX
+SUB AX, BX
+PUSH AX
+MOV AX, 2
+PUSH AX
+POP BX
+POP AX
+DIV  BX
+PUSH AX
+POP BX
+POP AX
+SUB AX, BX
+PUSH AX
+POP AX
+; Asignacion k
+MOV k, AX
 print ''
-printn ' '
-print 'Este requerimiento ya debe de quedar'
-printn ' '
+printn '' 
+print 'Altura: '
+call scan_num
+mov altura,cx
+printn ''
 print ''
-print 'Este comentario no tiene espacio'
-print 'Aqui quien sabe que pase'
-printn ' '
+printn '' 
+print 'for:'
+printn '' 
 print ''
-print ''
-printn ' '
-print 'Ingresa el valor de la altura'
-printn ' '
-print ''
-CALL SCAN_NUM
-MOV altura,CX
 ; For: 1
 MOV AX, 1
 PUSH AX
@@ -68,36 +98,64 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif1
+JNE Else1
 print '-'
-Eif1:
+JMP If1
+; else: 2
+Else1:
+print '+'
+If1:
 INC j
 JMP InicioFor2
 FinFor2:
-; if: 2
-MOV AX, j
-PUSH AX
-MOV AX, 2
-PUSH AX
-POP BX
-POP AX
-DIV  BX
-PUSH DX
-MOV AX, 0
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JNE Eif2
-Eif2:
 print ''
-printn ' '
+printn '' 
 print ''
 INC i
 JMP InicioFor1
 FinFor1:
-; For: 3
-; if: 3
+print ''
+printn '' 
+print 'while:'
+printn '' 
+print ''
+MOV AX, 1
+PUSH AX
+POP AX
+; Asignacion i
+MOV i, AX
+; While: 1
+InicioWhile1:
+MOV AX, i
+PUSH AX
+MOV AX, altura
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JA FinWhile1
+MOV AX, 250
+PUSH AX
+POP AX
+; Asignacion j
+MOV j, AX
+; While: 2
+InicioWhile2:
+MOV AX, j
+PUSH AX
+MOV AX, 250
+PUSH AX
+MOV AX, i
+PUSH AX
+POP BX
+POP AX
+ADD AX, BX
+PUSH AX
+POP BX
+POP AX
+CMP AX, BX
+JAE FinWhile2
+; if: 16
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -111,27 +169,50 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif3
+JNE Else16
 print '-'
-Eif3:
-; if: 4
-MOV AX, j
-PUSH AX
-MOV AX, 2
-PUSH AX
-POP BX
-POP AX
-DIV  BX
-PUSH DX
-MOV AX, 0
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JNE Eif4
-Eif4:
+JMP If16
+; else: 17
+Else16:
 print '+'
-; if: 5
+If16:
+POP AX
+; Incremento j
+MOV AX,j
+INC AX
+MOV j, AX
+JMP InicioWhile2
+FinWhile2:
+POP AX
+; Incremento i
+MOV AX,i
+INC AX
+MOV i, AX
+print ''
+printn '' 
+print ''
+JMP InicioWhile1
+FinWhile1:
+print ''
+printn '' 
+print 'do:'
+printn '' 
+print ''
+MOV AX, 1
+PUSH AX
+POP AX
+; Asignacion i
+MOV i, AX
+; Do: 1
+InicioDo1:
+MOV AX, 250
+PUSH AX
+POP AX
+; Asignacion j
+MOV j, AX
+; Do: 2
+InicioDo2:
+; if: 31
 MOV AX, j
 PUSH AX
 MOV AX, 2
@@ -145,94 +226,53 @@ PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif5
-Eif5:
-; For: 4
-; if: 6
-MOV AX, j
-PUSH AX
-MOV AX, 2
-PUSH AX
-POP BX
-POP AX
-DIV  BX
-PUSH DX
-MOV AX, 0
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JNE Eif6
+JNE Else31
 print '-'
-Eif6:
-; if: 7
-MOV AX, j
-PUSH AX
-MOV AX, 2
-PUSH AX
-POP BX
-POP AX
-DIV  BX
-PUSH DX
-MOV AX, 0
-PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JNE Eif7
-Eif7:
+JMP If31
+; else: 32
+Else31:
 print '+'
-; if: 8
+If31:
+POP AX
+; Incremento j
+MOV AX,j
+INC AX
+MOV j, AX
 MOV AX, j
 PUSH AX
-MOV AX, 2
+MOV AX, 250
+PUSH AX
+MOV AX, i
 PUSH AX
 POP BX
 POP AX
-DIV  BX
-PUSH DX
-MOV AX, 0
+ADD AX, BX
 PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif8
-print '-'
-Eif8:
-; if: 9
-MOV AX, j
-PUSH AX
-MOV AX, 2
-PUSH AX
-POP BX
+JAE FinDo2
+JMP InicioDo2
+FinDo2:
 POP AX
-DIV  BX
-PUSH DX
-MOV AX, 0
+; Incremento i
+MOV AX,i
+INC AX
+MOV i, AX
+print ''
+printn '' 
+print ''
+MOV AX, i
 PUSH AX
-POP BX
-POP AX
-CMP AX, BX
-JNE Eif9
-Eif9:
-; For: 5
-; if: 10
-MOV AX, j
-PUSH AX
-MOV AX, 2
-PUSH AX
-POP BX
-POP AX
-DIV  BX
-PUSH DX
-MOV AX, 0
+MOV AX, altura
 PUSH AX
 POP BX
 POP AX
 CMP AX, BX
-JNE Eif10
-Eif10:
-int 20h
+JA FinDo1
+JMP InicioDo1
+FinDo1:
+INT 20h
 RET
 define_scan_num
 define_print_num

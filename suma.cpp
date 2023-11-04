@@ -6,41 +6,13 @@ char altura,i,j,k;
 
 void main() // Funcion principal
 {
-    printf("\nEste requerimiento ya debe de quedar\n");
-    printf("Este comentario no tiene espacio");
-    printf("Aqui quien sabe que pase\n");
-    printf("\nIngresa el valor de la altura\n");
-    scanf("&i",&altura);
-    //printf("\nEl valor de la altura es: ",altura);
-    for (i = 1; i <= altura; i++)
-    {
-        for (j = 250; j < 250+i; j++)
-        {
-            if (j%2==0)
-                printf("-");
-            else
-                printf("+");
-        }
-        printf("\n");
-    }
+    
     // k = (int)(10);
     // k = 1.5;
     // k = (int)((char)(1.5));
-    /**
     k = (3+5)*8-(10-4)/2; // 61
 
-    if (1==1)
-    {
-        if (k == 61)
-        {
-            k = 3;
-        }
-        k = 2;
-    }
-    */
-    //*8 - (10-4)/2;
-
-    /*
+    
     printf("\nAltura: ");
     scanf("&i",&altura);
 
@@ -88,5 +60,4 @@ void main() // Funcion principal
         i++;
         printf("\n");
     } while (i <= altura);
-    */
 }
